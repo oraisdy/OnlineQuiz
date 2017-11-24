@@ -7,7 +7,7 @@ function resolve(relPath) {
 
 module.exports = {
     entry: {
-        app: "./src/main.js"
+        app: "./src/index.js"
     },
     devtool: "#eval-source-map",
     devServer: {
@@ -30,12 +30,10 @@ module.exports = {
         rules: [
             {
                 test: /\.js$/,
+                include: [resolve('src'), resolve('test')],
                 exclude: /node_modules/,
                 use: {
-                    loader: "babel-loader",
-                    options: {
-                        presets: ["babel-preset-env"]
-                    }
+                    loader: "babel-loader"
                 }
             },
             {
@@ -44,6 +42,20 @@ module.exports = {
                     loader: "vue-loader"
                     // options: utils.vueLoaderOptions()
                 }
+            },
+            {
+                test: /\.less$/,
+                use: [
+                    {
+                        loader: "style-loader" // creates style nodes from JS strings
+                    },
+                    {
+                        loader: "css-loader" // translates CSS into CommonJS
+                    },
+                    {
+                        loader: "less-loader" // compiles Less to CSS
+                    }
+                ]
             },
             {
                 test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
