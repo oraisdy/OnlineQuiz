@@ -1,5 +1,6 @@
 const path = require("path");
 const projectRoot = path.resolve(__dirname, "../");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 function resolve(relPath) {
     return path.resolve(__dirname, relPath);
@@ -9,12 +10,9 @@ module.exports = {
     entry: {
         app: "./src/index.js"
     },
-    devtool: "#eval-source-map",
-    devServer: {
-        contentBase: "./dist"
-    },
     output: {
         path: path.resolve(__dirname, "../dist"),
+        // publicPath: path.resolve(__dirname, "../public"),
         filename: "[name].js"
     },
     resolve: {
@@ -30,7 +28,7 @@ module.exports = {
         rules: [
             {
                 test: /\.js$/,
-                include: [resolve('src'), resolve('test')],
+                include: [resolve("src"), resolve("test")],
                 exclude: /node_modules/,
                 use: {
                     loader: "babel-loader"
@@ -43,6 +41,7 @@ module.exports = {
                     // options: utils.vueLoaderOptions()
                 }
             },
+            { test: /(\.css$)/, loaders: ["style-loader", "css-loader"] },
             {
                 test: /\.less$/,
                 use: [
@@ -80,5 +79,12 @@ module.exports = {
                 ]
             }
         ]
-    }
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            filename: "index.html",
+            template: "index.html",
+            inject: true
+        })
+    ]
 };

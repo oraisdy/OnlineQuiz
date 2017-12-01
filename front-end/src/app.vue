@@ -1,16 +1,19 @@
 <template>
 	<div id="app">
-		<h1>My Todo App!</h1>
-		<TodoList/>
+		<Nav/>
+		<div class="container">			
+		<Paper/>
+		</div>
 	</div>
 </template>
 
 <script>
-import TodoList from './components/TodoList.vue'
+import Paper from './components/Paper/Paper.vue'
+import Nav from './components/Nav/Nav.vue'
 
 export default {
 	components: {
-		TodoList
+		Paper, Nav
 	}
 }
 </script>
@@ -23,13 +26,19 @@ export default {
 }
 
 #app {
-	max-width: 400px;
-	margin: 0 auto;
 	line-height: 1.4;
 	font-family: 'Avenir', Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	color: @vue-blue;
+}
+
+.container {
+	position: relative;
+	top: @top-nav-height;
+	min-width: 400px;
+	width: 80%;
+	margin: 0 auto;
 }
 
 h1 {
