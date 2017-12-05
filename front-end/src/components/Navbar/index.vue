@@ -1,22 +1,20 @@
 <template>
 <div class="top-nav">
     <div class="banner"><h3>Online Quiz</h3></div>
-    <CountDown :end_time="end_time" class="count-down"></CountDown>
+    <CountDown :end_time="quiz.end_at" class="count-down"></CountDown>
 </div>
 </template>
 
 <script>
-import CountDown from "./CountDown.vue";
+import CountDown from './CountDown.vue'
 
 export default {
-    components: { CountDown },
-    data: function() {
-        return { end_time: new Date("2017-11-30T19:24:00") };
-    }
-};
+    props: ['quiz'],
+    components: { CountDown }
+}
 </script>
 <style lang="less">
-@import "../../variables.less";
+@import '../../variables.less';
 
 .top-nav {
     width: 100%;
