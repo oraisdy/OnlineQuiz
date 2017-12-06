@@ -4,9 +4,9 @@
             [{{index+1}}] {{problem.title}}
         </div>
         <div class='options'>
-            <label class='option' v-for="(option, key, index) in problem.options" :key="index">
+            <label class='option' v-for="(option, index) in problem.options" :key="index">
                 <problem-option-input v-model="option.checked"/>
-                <span>{{index+1}} {{key}}</span>
+                <span>{{index+1}} {{option.content}}</span>
             </label>
         </div>
     </div>
@@ -33,6 +33,7 @@ Vue.component('problem-option-input', {
 @import '../../variables.less';
 .problem-section {
     border-radius: 5px;
+    margin-top: @top-nav-height;
     border: 1px solid @dark-grey;
     margin: 2rem 0;
 

@@ -3,11 +3,16 @@ import Vuex from 'vuex'
 // import plugins from './plugins'
 import paper from './modules/paper'
 import quiz from './modules/quiz'
+import answersheet from './modules/answersheet'
+import createLogger from './plugins/logger'
 
+const debug = process.env.NODE_ENV !== 'production'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
     // actions,
     // getters
-    modules: { paper, quiz }
+    modules: { paper, quiz, answersheet },
+    // strict: debug,
+    plugins: debug ? [createLogger()] : []
 })
