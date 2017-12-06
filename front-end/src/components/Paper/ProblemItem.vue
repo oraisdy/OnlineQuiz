@@ -5,7 +5,7 @@
         </div>
         <div class='options'>
             <label class='option' v-for="(option, key, index) in problem.options" :key="index">
-                <input type='radio' v-model="option.checked" />
+                <problem-option-input v-model="option.checked"/>
                 <span>{{index+1}} {{key}}</span>
             </label>
         </div>
@@ -13,18 +13,20 @@
 </template>
 
 <script>
+import Vue from 'vue'
 export default {
-    props: ['problem', 'index'],
-
-    methods: {
-        onSelect(e) {
-            e.preventDefault()
-
-            var checked = e.currentTarget.children[0].checked
-            e.currentTarget.children[0].checked = !checked
-        }
-    }
+    props: ['problem', 'index']
 }
+
+Vue.component('problem-option-input', {
+    template: '<input type="checkbox" @change="onChange" :checked="value" />',
+    methods: {
+        onChange(event) {
+            this.$emit('input', event.target.checked)
+        }
+    },
+    props: { value: { type: Boolean, default: false } }
+})
 </script>
 
 <style lang="less">
