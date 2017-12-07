@@ -2,6 +2,7 @@
 	<div id="app">
 		<Navbar :quiz="quiz"/>
 		<div class="container">	
+            <h1>{{quiz.title}}</h1>
             <router-view  :quiz="quiz"></router-view>		
 		<!-- <Paper :quiz="quiz"/> -->
 		</div>

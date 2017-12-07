@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 
 const paths = {
     // APP: '/',
-    PAPER: '/',
+    PAPER: '/paper',
     ANSWERSHEET: '/answersheet'
 }
 
@@ -12,6 +12,7 @@ Vue.use(VueRouter)
 
 // 1. 定义（路由）组件。
 // 可以从其他文件 import 进来
+import App from '../components/App'
 import Paper from '../components/Paper'
 import Answersheet from '../components/Answersheet'
 
@@ -21,15 +22,22 @@ import Answersheet from '../components/Answersheet'
 // 或者，只是一个组件配置对象。
 // 我们晚点再讨论嵌套路由。
 const routes = [
-    { path: paths.PAPER, component: Paper },
-    { path: paths.ANSWERSHEET, component: Answersheet }
+    {
+        path: '/',
+        component: App,
+        children: [
+            { path: '', redirect: paths.PAPER },
+            { path: paths.PAPER, component: Paper },
+            { path: paths.ANSWERSHEET, component: Answersheet }
+        ]
+    }
 ]
 
 // 3. 创建 router 实例，然后传 `routes` 配置
 // 你还可以传别的配置参数, 不过先这么简单着吧。
 const router = new VueRouter({
     routes, // （缩写）相当于 routes: routes
-    mode: 'history',
+    // mode: 'history',
     scrollBehavior(to, from, savedPosition) {
         if (to.hash) {
             return {

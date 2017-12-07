@@ -1,6 +1,5 @@
 <template>
-    <div>
-        <h1>{{quiz.title}}</h1>
+    <div>       
         <div v-if="problems.length">
             <ProblemItem class="problem-section" :id="'pb'+(index+1)" v-for="(problem, index) in problems" :key="problem.id" :problem="problem"
                 :index="index" />
