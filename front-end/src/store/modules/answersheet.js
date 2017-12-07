@@ -5,7 +5,8 @@ export const STORAGE_KEY = 'online-quiz'
 
 const state = {
     problems:
-        JSON.parse(window.localStorage.getItem(`${STORAGE_KEY}.draft`)) || []
+        JSON.parse(window.localStorage.getItem(`${STORAGE_KEY}.draft`)) || [],
+    marks: JSON.parse(window.localStorage.getItem(`${STORAGE_KEY}.marks`)) || []
 }
 
 const getters = {
@@ -26,6 +27,10 @@ const actions = {
             JSON.stringify(ansSht.problems)
         )
         commit(types.ANSWERSHEET_SAVED, { ansSht })
+    },
+    saveMarkedItems({ commit }, markedPbs) {
+        localStorage.setItem(`${STORAGE_KEY}.marks`, JSON.stringify(markedPbs))
+        commit(types.MARKED_ITEMS_SAVED, { markedPbs })
     }
 }
 
@@ -36,6 +41,9 @@ const mutations = {
     [types.ANSWERSHEET_SAVED](state, { ansSht }) {
         state.problems = ansSht.problems
         console.log('saves', ansSht)
+    },
+    [types.MARKED_ITEMS_SAVED](state, { markedPbs }) {
+        state.marks = markedPbs
     }
 }
 

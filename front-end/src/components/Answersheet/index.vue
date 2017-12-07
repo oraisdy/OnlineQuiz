@@ -7,13 +7,13 @@
  
       <tr class="answers-table-header"><th><div>题号</div></th><th><div>答案</div></th></tr>
    
-      <tr v-for='problem in problems1' :key="problem.index">
+      <tr v-for='problem in problems1' :key="problem.index" class='cell' :class="{warning:problem.answers && problem.answers.length <=0 , hint:isMarked(problem.id)}">
         <td class='answers-table-td'>
-          <div class='cell' >
+          <div >
              <router-link :to="paths.PAPER+'#pb'+problem.index">{{problem.index}}</router-link>
           </div>
         </td>
-        <td class='answers-table-td'><div class='cell'>{{problem.answers}}</div></td>
+        <td class='answers-table-td'>{{problem.answers}}</td>
       </tr>
   
   </table>
@@ -23,13 +23,13 @@
  
       <tr class="answers-table-header"><th><div>题号</div></th><th><div>答案</div></th></tr>
    
-      <tr v-for='problem in problems2' :key="problem.index">
+      <tr v-for='problem in problems2' :key="problem.index" class="cell" :class="{warning:problem.answers && problem.answers.length <=0, hint:isMarked(problem.id)}">
         <td class='answers-table-td'>
-          <div class='cell' >
+          <div>
              <router-link :to="paths.PAPER+'#pb'+problem.index">{{problem.index}}</router-link>
           </div>
         </td>
-        <td class='answers-table-td'><div class='cell'>{{problem.answers}}</div></td>
+        <td class='answers-table-td'>{{problem.answers}}</td>
       </tr>
   
   </table>
@@ -44,8 +44,6 @@ import { paths } from '../../router'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-    // computed: mapGetters()({ problems: 'problems' }),
-
     data: function() {
         return {
             problems: this.$store.state.answersheet.problems,
@@ -71,6 +69,15 @@ export default {
                     pb.index = Math.ceil(this.problems.length / 2) + index + 1
                     return pb
                 })
+        }
+    },
+    methods: {
+        isMarked(pbId) {
+            console.log(
+                'this.$store.state.answersheet',
+                this.$store.state.answersheet
+            )
+            return this.$store.state.answersheet.marks.indexOf(pbId) !== -1
         }
     },
     created() {}
@@ -108,31 +115,29 @@ a {
     border: 1px solid @dark-grey;
     display: table;
 
-    // display: table;
-    // border-collapse: separate;
-    // border-spacing: 0;
-
-    // flex: 1;
     text-align: center;
 
     .answers-table-col {
         vertical-align: top;
         width: 50%;
 
-        // border: 1px solid @dark-grey;
-
         .answers-table-header {
             background: @grey;
             & > th {
                 padding: 12px 0;
             }
-
-            // padding: 12px 0;
-            // border: 1px solid @dark-grey;
         }
         .answers-table-td {
             padding: 12px 0;
             border: 1px solid @grey;
+        }
+        .cell {
+            &.warning {
+                background: @cl-warning;
+            }
+            &.hint {
+                background: @cl-hint;
+            }
         }
     }
 }
