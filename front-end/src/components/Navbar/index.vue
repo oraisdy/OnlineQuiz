@@ -1,15 +1,35 @@
 <template>
 <div class="top-nav">
     <div class="banner"><h3>Online Quiz</h3></div>
-    <CountDown :end_time="quiz.end_at" class="count-down"></CountDown>
+    <!-- <div class=""> -->
+        <div v-if="isPaper" class="banner-btn banner-right"><router-link :to="paths.ANSWERSHEET">交卷</router-link></div>
+        <div v-if="isAnswerSheet" class="banner-btn banner-right"><router-link :to="paths.PAPER">返回考试</router-link></div>
+        <CountDown :end_time="quiz.end_at" class="count-down banner-right"></CountDown>
+        
+    <!-- </div> -->
 </div>
 </template>
 
 <script>
 import CountDown from './CountDown.vue'
-
+import { paths } from '../../router'
 export default {
     props: ['quiz'],
+    data() {
+        return {
+            paths,
+            isPaperFlag: true
+        }
+    },
+    computed: {
+        isPaper() {
+            console.log('$route', this.$route)
+            return this.$route.matched[1].path === '/paper'
+        },
+        isAnswerSheet() {
+            return this.$route.matched[1].path === '/answersheet'
+        }
+    },
     components: { CountDown }
 }
 </script>
@@ -23,6 +43,7 @@ export default {
     top: 0;
     background: @white;
     z-index: 100;
+    overflow: hidden;
 
     & > div {
         display: inline-block;
@@ -42,10 +63,21 @@ export default {
         padding-left: 2rem;
         width: 200px;
     }
-    .count-down {
+    .banner-right {
         float: right;
-        padding-right: 2rem;
-        width: 150px;
+    }
+    .banner-btn {
+        width: 100px;
+        display: inline-block;
+        vertical-align: top;
+        margin: 0 10px;
+        padding: 0;
+        background: @vue-blue;
+        & > a {
+            color: @white;
+
+            text-decoration: none;
+        }
     }
 }
 </style>

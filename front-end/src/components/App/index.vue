@@ -47,7 +47,7 @@ export default {
 
 .container {
     position: relative;
-    top: @top-nav-height;
+    top: @top-nav-height+20px;
     min-width: 400px;
     width: 80%;
     margin: 0 auto;
