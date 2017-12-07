@@ -86,8 +86,8 @@ a {
 }
 .answers-table-container {
     border-collapse: collapse;
-    margin-top: @top-nav-height;
     width: 100%;
+    margin: 2rem 0;
 
     table,
     div,
@@ -106,7 +106,6 @@ a {
 .answers-table {
     border-radius: 5px;
     border: 1px solid @dark-grey;
-    margin: 2rem 0;
     display: table;
 
     // display: table;
