@@ -1,8 +1,9 @@
 <template>
 	<div id="app">
 		<Navbar :quiz="quiz"/>
-		<div class="container">			
-		<Paper :quiz="quiz"/>
+		<div class="container">	
+            <router-view  :quiz="quiz"></router-view>		
+		<!-- <Paper :quiz="quiz"/> -->
 		</div>
 	</div>
 </template>

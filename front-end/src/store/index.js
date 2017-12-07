@@ -9,10 +9,13 @@ import createLogger from './plugins/logger'
 const debug = process.env.NODE_ENV !== 'production'
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
     // actions,
     // getters
     modules: { paper, quiz, answersheet },
     // strict: debug,
     plugins: debug ? [createLogger()] : []
 })
+console.log(store)
+
+export default store

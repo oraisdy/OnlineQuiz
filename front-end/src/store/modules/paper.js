@@ -5,7 +5,7 @@ export const STORAGE_KEY = 'online-quiz'
 
 // initial state
 const state = {
-    problems: JSON.parse(window.localStorage.getItem(STORAGE_KEY) || '[]'),
+    problems: [],
     title: null
 }
 

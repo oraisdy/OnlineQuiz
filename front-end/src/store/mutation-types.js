@@ -6,5 +6,6 @@
 
 export const PAPER_RECEIVED = 'paper_received'
 export const QUIZ_RECEIVED = 'quiz_received'
-export const ANSWERSHEET_POST_SUCCESS = 'answersheet_post_success'
+export const ANSWERSHEET_POSTED = 'answersheet_posted'
 export const ANSWERSHEET_POST_FAILURE = 'answersheet_post_failure'
+export const ANSWERSHEET_SAVED = 'answersheet_saved'

@@ -2,22 +2,29 @@
     <div>
         <h1>{{quiz.title}}</h1>
         <div v-if="problems.length">
-            <ProblemItem class="problem-section" :id="'pb'+(index+1)" v-for="(problem, index) in problems" :key="problem.id" :problem="problem" :index="index"
-            />
+            <ProblemItem class="problem-section" :id="'pb'+(index+1)" v-for="(problem, index) in problems" :key="problem.id" :problem="problem"
+                :index="index" />
         </div>
-        <button class='submit-btn' @click.prevent="submitAnswers">交卷</button>
+        <button class='submit-btn' @click.prevent="submitAnswers">
+            <router-link :to="paths.ANSWERSHEET">交卷</router-link>
+        </button>
     </div>
 </template>
 
 
 <script>
 import _ from 'lodash'
-import ProblemItem from './ProblemItem.vue'
+import { paths } from '../../router'
+import ProblemItem from './ProblemItem'
 import { mapGetters, mapActions } from 'vuex'
+
 export default {
     props: ['quiz'],
     components: {
         ProblemItem
+    },
+    data: function() {
+        return { paths }
     },
     computed: mapGetters({
         title: 'title',
@@ -26,7 +33,7 @@ export default {
     watch: {
         problems: {
             handler: function(vals, oldVals) {
-                console.log(vals)
+                console.log('watch:', vals)
             },
             deep: true
         }
@@ -36,13 +43,15 @@ export default {
     },
     methods: {
         submitAnswers() {
-            var answers = this.problems.map(pb => ({
-                id: pb.id,
-                answers: pb.options
-                    .filter(ans => ans.checked)
-                    .map(ans => ans.id)
-            }))
-            this.$store.dispatch('postAnswersheet', answers)
+            var answers = mapProblemsToAnswers(this.problems)
+            this.$store.dispatch('saveAnswersheet', { problems: answers })
+            // var answers = this.problems.map(pb => ({
+            //     id: pb.id,
+            //     answers: pb.options
+            //         .filter(ans => ans.checked)
+            //         .map(ans => ans.id)
+            // }))
+            // this.$store.dispatch('postAnswersheet', answers)
         }
     }
 }
