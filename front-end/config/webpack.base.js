@@ -9,7 +9,8 @@ function resolve(relPath) {
 
 module.exports = {
     entry: {
-        app: './src/index.js'
+        app: './src/quiz/index.js',
+        manage: './src/manage/index.js'
     },
     output: {
         path: path.resolve(__dirname, '../dist'),
@@ -82,10 +83,22 @@ module.exports = {
         ]
     },
     plugins: [
+        // new HtmlWebpackPlugin({
+        //     filename: 'index.html',
+        //     template: 'index.html',
+        //     inject: true
+        // }),
         new HtmlWebpackPlugin({
-            filename: 'index.html',
+            inject: true,
+            chunks: ['app'],
             template: 'index.html',
-            inject: true
+            filename: 'index.html'
+        }),
+        new HtmlWebpackPlugin({
+            inject: true,
+            chunks: ['manage'],
+            template: 'index.html',
+            filename: 'manage.html'
         }),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify(
