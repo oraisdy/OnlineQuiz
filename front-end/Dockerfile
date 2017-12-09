@@ -1,8 +1,7 @@
 # our base image
-FROM node:6.9.4
-WORKDIR /usr/src/app
-COPY package.json /usr/src/app
-RUN npm install
-COPY . /usr/src/app
-EXPOSE 3000
+FROM node:8.9.2
+COPY . /usr/app
+WORKDIR /usr/app
+RUN cnpm install
+EXPOSE 8080
 CMD npm run dev

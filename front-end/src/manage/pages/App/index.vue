@@ -25,7 +25,6 @@ export default {
     },
     methods: {
         handleSelect(key, keyPath) {
-            console.log(key, keyPath);
             switch (key) {
                 case '1':
                     this.$router.push(paths.QUIZ); break;
