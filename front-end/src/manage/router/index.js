@@ -1,10 +1,18 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from "vue";
+import VueRouter from "vue-router";
 
-const paths = {}
+import App from "../pages/App";
+import Quiz from "../pages/Quiz";
+import Repository from "../pages/Repository";
+
+const paths = {
+    APP: "/",
+    QUIZ: "/quiz",
+    REPOSITORY: "/repository"
+};
 
 // 0. 如果使用模块化机制编程，導入Vue和VueRouter，要调用 Vue.use(VueRouter)
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 // 1. 定义（路由）组件。
 // 可以从其他文件 import 进来
@@ -15,16 +23,16 @@ Vue.use(VueRouter)
 // 或者，只是一个组件配置对象。
 // 我们晚点再讨论嵌套路由。
 const routes = [
-    // {
-    //     path: '/',
-    //     component: App,
-    //     children: [
-    //         { path: '', redirect: paths.PAPER },
-    //         { path: paths.PAPER, component: Paper },
-    //         { path: paths.ANSWERSHEET, component: Answersheet }
-    //     ]
-    // }
-]
+    {
+        path: "/",
+        component: App,
+        children: [
+            { path: "", redirect: paths.QUIZ },
+            { path: paths.QUIZ, component: Quiz },
+            { path: paths.REPOSITORY, component: Repository }
+        ]
+    }
+];
 
 // 3. 创建 router 实例，然后传 `routes` 配置
 // 你还可以传别的配置参数, 不过先这么简单着吧。
@@ -35,13 +43,13 @@ const router = new VueRouter({
         if (to.hash) {
             return {
                 selector: to.hash
-            }
+            };
         }
     }
-})
+});
 
-export default router
-export { paths }
+export default router;
+export { paths };
 
 // 4. 创建和挂载根实例。
 // 记得要通过 router 配置参数注入路由，

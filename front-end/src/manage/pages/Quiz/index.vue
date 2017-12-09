@@ -33,8 +33,8 @@
             <el-input type="textarea" v-model="quiz.description"></el-input>
         </el-form-item>
         <el-form-item v-for="(cls, index) in quiz.classes" :label="index===0?'考生选择':''" :key="index" :prop="'classes.' + index + '.value'" :rules="[
-                                                                        {required:true, message:'请添加参加考试的学生',trigger:'blur'}
-                                                                    ]">
+                                                                                {required:true, message:'请添加参加考试的学生',trigger:'blur'}
+                                                                            ]">
             <el-select v-model="cls.value" placeholder="请选择参加考试的班级">
                 <el-option :label="clsName" :value="clsName" v-for="(clsName,index) in classes" :key="index"></el-option>
             </el-select>
@@ -46,8 +46,8 @@
             <el-input @input="onProblemCountChanged" v-model.number="quiz.problem_count" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item v-for="(pb, index) in quiz.score_value" :label="index===0?'分值设置':''" :key="index" :prop="'score_value.' + index + '.value'" :rules="[
-                                                                        {required:true, message:'请设置每一道题目的出题范围和分值',trigger:'blur'}
-                                                                    ]">
+                                                                                {required:true, message:'请设置每一道题目的出题范围和分值',trigger:'blur'}
+                                                                            ]">
             <el-col :span="12">
                 <el-select v-model="pb.scope" multiple placeholder="试题类型">
                     <el-option :label="pbType" :value="pbType" v-for="(pbType,index) in types" :key="index"></el-option>
