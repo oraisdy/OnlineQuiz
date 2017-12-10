@@ -1,4 +1,4 @@
-package com.example.qs;
+package com.example.qs.controller;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
