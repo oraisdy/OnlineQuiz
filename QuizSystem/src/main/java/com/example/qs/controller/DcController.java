@@ -1,5 +1,7 @@
-package com.example.qs;
+package com.example.qs.controller;
 
+import com.example.qs.dao.UserMapper;
+import com.example.qs.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
@@ -28,5 +30,14 @@ public class DcController {
         String url = "http://" + serviceInstance.getHost() + ":" + serviceInstance.getPort() + "/add?a=2&b=3";
         System.out.println(url);
         return restTemplate.getForObject(url, String.class);
+    }
+
+    @Autowired
+    UserMapper UserMapper;
+
+    @GetMapping("/test")
+    public String test() {
+        User user = UserMapper.getById("141250047");
+        return user.getEmail();
     }
 }
