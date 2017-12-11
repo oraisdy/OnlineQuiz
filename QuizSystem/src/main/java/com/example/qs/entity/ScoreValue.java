@@ -1,45 +1,40 @@
 package com.example.qs.entity;
 
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 /**
  * Created by phoebegl on 2017/12/7.
  * 分值
  */
+@Entity
+@Table(name = "scorevalue")
 public class ScoreValue {
 
-    private String id;
-    private String examid;
-    private String questionid;
-    private int value;
+    @EmbeddedId
+    private ScoreValuePK id;
 
-    public String getId() {
+    @Column(name = "Scorevalue")
+    private int scorevalue;
+
+
+
+    public ScoreValuePK getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(ScoreValuePK id) {
         this.id = id;
     }
 
-    public String getExamid() {
-        return examid;
+    public int getScorevalue() {
+        return scorevalue;
     }
 
-    public void setExamid(String examid) {
-        this.examid = examid;
+    public void setScorevalue(int scorevalue) {
+        this.scorevalue = scorevalue;
     }
 
-    public String getQuestionid() {
-        return questionid;
-    }
-
-    public void setQuestionid(String questionid) {
-        this.questionid = questionid;
-    }
-
-    public int getValue() {
-        return value;
-    }
-
-    public void setValue(int value) {
-        this.value = value;
-    }
 }

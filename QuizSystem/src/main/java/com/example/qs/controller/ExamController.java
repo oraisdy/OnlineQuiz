@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by phoebegl on 2017/12/7.
@@ -39,4 +40,13 @@ public class ExamController {
         examService.generateQuiz(quiz);
     }
 
+    @GetMapping(value = "/generatePaper")
+    public Map<String, Object> generatePaper(@RequestParam String authcode) {
+        return examService.generatePaper(authcode);
+    }
+
+    @PostMapping(value = "/saveAnswerSheet")
+    public int saveAnswer(@RequestBody Map<String, Object> choices) {
+        return examService.saveAnswer(choices);
+    }
 }
