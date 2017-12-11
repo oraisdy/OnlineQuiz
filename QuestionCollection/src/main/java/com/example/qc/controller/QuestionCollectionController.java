@@ -2,17 +2,35 @@ package com.example.qc.controller;
 
 import com.example.qc.model.Answer;
 import com.example.qc.model.Question;
+import org.apache.log4j.Logger;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.*;
+import java.util.List;
 import java.util.Vector;
 
 public class QuestionCollectionController {
+    private final Logger logger = Logger.getLogger(getClass());
+
+    @Autowired
+    private DiscoveryClient discoveryClient;
+
+    @Value("${spring.application.name}")
+    private String applicationName;
+
+
     private String url="jdbc:mysql://118.89.114.168:3306/online_quiz?autoReconnect=true&useSSL=false&characterEncoding=utf-8";
     private String user="root";
     private String password="2a617";
@@ -23,9 +41,15 @@ public class QuestionCollectionController {
         System.out.println(qc.getQuestionsByTagAndSubject("tag","software").size());
     }
 
-    public void readTheInputExcel(String path) throws EncryptedDocumentException, InvalidFormatException, IOException {
+    @RequestMapping("/service-instances/{applicationName}")
+    public List<ServiceInstance> serviceInstancesByApplicationName(
+            @PathVariable String applicationName) {
+        return this.discoveryClient.getInstances(applicationName);
+    }
 
-        InputStream inputStream = new FileInputStream(path);
+    @RequestMapping(value = "/saveTheInputExcel" ,method = RequestMethod.POST)
+    public void saveTheInputExcel(InputStream inputStream) throws EncryptedDocumentException, InvalidFormatException, IOException {
+        ServiceInstance instance = discoveryClient.getInstances(applicationName).get(0);
 
         Workbook workbook = WorkbookFactory.create(inputStream);
         Sheet sheet = workbook.getSheetAt(0);
@@ -35,6 +59,7 @@ public class QuestionCollectionController {
             conn= DriverManager.getConnection(url,user,password);
         }
         catch (SQLException e){
+            logger.info("/saveTheInputExcel, host:" + instance.getHost() + ", service_id:" + instance.getServiceId() + ", error:" + e);
             return;
         }
         try{
@@ -83,20 +108,26 @@ public class QuestionCollectionController {
             conn.commit();
             pstmt.close();
             conn.close();
+            logger.info("/saveTheInputExcel, host:" + instance.getHost() + ", service_id:" + instance.getServiceId() + ", success");
 
         }catch (SQLException e){
             try {
                 conn.rollback();
             } catch (SQLException e1) {
+                logger.info("/saveTheInputExcel, host:" + instance.getHost() + ", service_id:" + instance.getServiceId() + ", error:" + e1);
                 e1.printStackTrace();
             }
+            logger.info("/saveTheInputExcel, host:" + instance.getHost() + ", service_id:" + instance.getServiceId() + ", error:" + e);
             e.printStackTrace();
             e.getNextException();
         }
 
     }
 
-    public Vector<Question> getQuestionsByTagAndSubject(String tag, String subject){
+    @RequestMapping(value = "/getQuestionsByTagAndSubject" ,method = RequestMethod.GET)
+    public Vector<Question> getQuestionsByTagAndSubject(@RequestParam String tag, @RequestParam String subject){
+        ServiceInstance instance = discoveryClient.getInstances(applicationName).get(0);
+
         Vector<Question> result = new Vector<>();
         try{
             conn= DriverManager.getConnection(url,user,password);
@@ -138,6 +169,7 @@ public class QuestionCollectionController {
             e.printStackTrace();
             e.getNextException();
         }
+        logger.info("/getQuestionsByTagAndSubject, host:" + instance.getHost() + ", service_id:" + instance.getServiceId() + ", result:" + result);
         return result;
     }
 }
