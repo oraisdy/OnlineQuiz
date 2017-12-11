@@ -8,6 +8,8 @@
                 <el-menu-item index="2"> 题库管理
                     <!--<router-link :to="paths.REPOSITORY">题库管理</router-link>-->
                 </el-menu-item>
+                <el-menu-item index="3"> 考试查看
+                </el-menu-item>
             </el-menu>
             <router-view class="content"></router-view>
         </div>
@@ -15,11 +17,10 @@
 </template>
 
 <script>
-import { paths } from "../../router"
+import { paths } from '../../router'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-
     data() {
         return { paths, activeIndex: '1' }
     },
@@ -27,13 +28,18 @@ export default {
         handleSelect(key, keyPath) {
             switch (key) {
                 case '1':
-                    this.$router.push(paths.QUIZ); break;
-                case '2': this.$router.push(paths.REPOSITORY); break;
+                    this.$router.push(paths.CREATE)
+                    break
+                case '2':
+                    this.$router.push(paths.REPOSITORY)
+                    break
+                case '3':
+                    this.$router.push(paths.QUIZS)
+                    break
             }
         }
     }
 }
-
 </script>
 
 <style lang="less">

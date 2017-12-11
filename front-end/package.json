@@ -5,14 +5,14 @@
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "dev":
-            "webpack-dev-server --config config/webpack.dev.js --host 0.0.0.0",
-        "build":
-            "cross-env NODE_ENV=production webpack --config config/webpack.prod.js"
+        "dev": "webpack-dev-server --config config/webpack.dev.js --host 0.0.0.0",
+        "build": "cross-env NODE_ENV=production webpack --config config/webpack.prod.js"
     },
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "axios": "^0.17.1",
+        "axios-mock-adapter": "^1.10.0",
         "element-ui": "^2.0.7",
         "lodash": "^4.17.4",
         "vue": "^2.5.7",
