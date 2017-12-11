@@ -1,49 +1,49 @@
 package com.example.jw.domain;
 
 public class Choice {
-    private int ExamId;
-    private int UserId;
-    private int QuestionId;
-    private int AnswerId;
-    private int ProblemNum;
+    private int examid;
+    private int userid;
+    private int questionid;
+    private int answerid;
+    private int problem_num;
 
-    public int getExamId() {
-        return ExamId;
+    public int getExamid() {
+        return examid;
     }
 
-    public void setExamId(int examId) {
-        ExamId = examId;
+    public void setExamid(int examid) {
+        this.examid = examid;
     }
 
-    public int getUserId() {
-        return UserId;
+    public int getUserid() {
+        return userid;
     }
 
-    public void setUserId(int userId) {
-        UserId = userId;
+    public void setUserid(int userid) {
+        this.userid = userid;
     }
 
-    public int getQuestionId() {
-        return QuestionId;
+    public int getQuestionid() {
+        return questionid;
     }
 
-    public void setQuestionId(int questionId) {
-        QuestionId = questionId;
+    public void setQuestionid(int questionid) {
+        this.questionid = questionid;
     }
 
-    public int getAnswerId() {
-        return AnswerId;
+    public int getAnswerid() {
+        return answerid;
     }
 
-    public void setAnswerId(int answerId) {
-        AnswerId = answerId;
+    public void setAnswerid(int answerid) {
+        this.answerid = answerid;
     }
 
-    public int getProblemNum() {
-        return ProblemNum;
+    public int getProblem_num() {
+        return problem_num;
     }
 
-    public void setProblemNum(int problemNum) {
-        ProblemNum = problemNum;
+    public void setProblem_num(int problem_num) {
+        this.problem_num = problem_num;
     }
 }

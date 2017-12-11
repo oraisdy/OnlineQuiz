@@ -10,5 +10,5 @@ import org.springframework.stereotype.Component;
 @Component(value = "UserMapper")
 public interface UserMapper {
     @Select("select * from user where Id = #{Id}")
-    User getById(@Param("Id") String Id);
+    User getById(@Param("Id") int Id);
 }
