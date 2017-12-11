@@ -1,0 +1,1 @@
+[{"exam_id":5,"user_id":141250050,"score":0},{"exam_id":5,"user_id":141250051,"score":0}]
