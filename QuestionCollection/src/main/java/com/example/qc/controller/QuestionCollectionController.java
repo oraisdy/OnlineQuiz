@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,6 +18,7 @@ import java.sql.*;
 import java.util.List;
 import java.util.Vector;
 
+@RestController
 public class QuestionCollectionController {
     private final Logger logger = Logger.getLogger(getClass());
 
@@ -48,7 +46,7 @@ public class QuestionCollectionController {
     }
 
     @RequestMapping(value = "/saveTheInputExcel" ,method = RequestMethod.POST)
-    public void saveTheInputExcel(InputStream inputStream) throws EncryptedDocumentException, InvalidFormatException, IOException {
+    public void saveTheInputExcel(@RequestParam InputStream inputStream) throws EncryptedDocumentException, InvalidFormatException, IOException {
         ServiceInstance instance = discoveryClient.getInstances(applicationName).get(0);
 
         Workbook workbook = WorkbookFactory.create(inputStream);
