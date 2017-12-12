@@ -1,1 +1,1 @@
-export const QUESTIONS_API_URL = '//10.73.181.47:2222'
+export const QUESTIONS_API_URL = 'http://118.89.114.168:2222/'
