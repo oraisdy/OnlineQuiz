@@ -4,7 +4,6 @@
 		<div class="container">	
             <h1>{{quiz.title}}</h1>
             <router-view  :quiz="quiz"></router-view>		
-		<!-- <Paper :quiz="quiz"/> -->
 		</div>
 	</div>
 </template>
