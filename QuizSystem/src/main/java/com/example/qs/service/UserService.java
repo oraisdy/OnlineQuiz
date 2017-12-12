@@ -1,6 +1,7 @@
 package com.example.qs.service;
 
 import com.example.qs.entity.User;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public interface UserService {
 
     List<User> showStudentsByClass(String classid);
 
-    int saveStudents(List<User> users);
+    List<User> saveStudents(MultipartFile file);
 
     void corelationExamUser(int examid, List<User> users);
 

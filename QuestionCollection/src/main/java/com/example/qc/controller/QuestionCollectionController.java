@@ -12,6 +12,7 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
@@ -123,54 +124,6 @@ public class QuestionCollectionController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/getQuestionsByTagAndSubject" ,method = RequestMethod.GET)
-    public Vector<Question> getQuestionsByTagAndSubject(@RequestParam String tag, @RequestParam String subject){
-
-        Vector<Question> result = new Vector<>();
-        try{
-            conn= DriverManager.getConnection(url,user,password);
-        }
-        catch (SQLException e){
-            e.printStackTrace();
-            return result;
-        }
-        try{
-            //建立PreparedStatement对象
-            String sql="select * from questions where Subject=? and Tag=?";
-            PreparedStatement pstmt=conn.prepareStatement(sql);
-            pstmt.setString(1,subject);
-            pstmt.setString(2,tag);
-            ResultSet rs=pstmt.executeQuery();
-            while (rs.next()){
-                int questionId = rs.getInt("ID");
-                sql="select * from answers where QuestionID=?";
-                pstmt=conn.prepareStatement(sql);
-                pstmt.setInt(1,questionId);
-                ResultSet answers = pstmt.executeQuery();
-                Vector<Answer> allAnswers = new Vector<>();
-                while (answers.next()){
-                    Answer answer = new Answer(answers.getInt("ID"),
-                            answers.getString("Content"),
-                            answers.getInt("QuestionID"),
-                            answers.getInt("Type"));
-                    allAnswers.add(answer);
-                }
-                Question question = new Question(questionId,
-                        rs.getString("Content"),
-                        allAnswers,
-                        rs.getInt("AnswerNumber"),
-                        rs.getString("Subject"),
-                        rs.getString("Tag"));
-                result.add(question);
-            }
-        }catch (SQLException e){
-            e.printStackTrace();
-            e.getNextException();
-        }
-        return result;
-    }
-
-    @CrossOrigin
     @RequestMapping(value = "/getQuestionsByIDs" ,method = RequestMethod.POST)
     public Vector<Question> getQuestionsByIDs(@RequestBody ArrayList<Integer> ids){
         Vector<Question> result = new Vector<>();
@@ -181,11 +134,104 @@ public class QuestionCollectionController {
     }
 
     @CrossOrigin
-    @RequestMapping(value = "/getQuestionsByIDs" ,method = RequestMethod.POST)
-    public Vector<Question> getAllQuestionsByIDs(@RequestBody ArrayList<Integer> ids){
+    @RequestMapping(value = "/getQuestions" ,method = RequestMethod.GET)
+    public Vector<Question> getQuestions(HttpServletRequest request){
+        if ((request.getParameter("tag") != null) && (request.getParameter("subject") != null)){
+            return getQuestionsByTagAndSubject(request.getParameter("tag"),request.getParameter("subject"));
+        }
+        else if (request.getParameter("subject") != null){
+            return getQuestionsByParameter("Subject",request.getParameter("subject"));
+        }
+        else if (request.getParameter("tag") != null){
+            return getQuestionsByParameter("Tag",request.getParameter("tag"));
+        }
+        else{
+            return getAllQuestions();
+        }
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/getAllSubjects" ,method = RequestMethod.GET)
+    public Vector<String> getAllSubjects(){
+        Vector<String> result = new Vector<>();
+        try{
+            conn= DriverManager.getConnection(url,user,password);
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+        try{
+            String sql="select Subject from questions";
+            PreparedStatement pstmt=conn.prepareStatement(sql);
+            ResultSet rs=pstmt.executeQuery();
+            while (rs.next()){
+                result.add(rs.getString(1));
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+            e.getNextException();
+            return null;
+        }
+        return result;
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/getTags" ,method = RequestMethod.GET)
+    public Vector<String> getTags(HttpServletRequest request){
+        Vector<String> result = new Vector<>();
+        try{
+            conn= DriverManager.getConnection(url,user,password);
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+        try{
+            String sql="select Tag from questions";
+            if (request.getParameter("subject") != null){
+                sql = "SELECT Tag FROM questions WHERE Subject=\""+request.getParameter("subject")+"\"";
+            }
+            PreparedStatement pstmt=conn.prepareStatement(sql);
+            ResultSet rs=pstmt.executeQuery();
+            while (rs.next()){
+                result.add(rs.getString(1));
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+            e.getNextException();
+            return null;
+        }
+        return result;
+    }
+
+    private Vector<Question> getAllQuestions(){
         Vector<Question> result = new Vector<>();
-        for (int i = 0; i < ids.size(); i++) {
-            result.add(getQuestionByID(ids.get(i)));
+        try{
+            conn= DriverManager.getConnection(url,user,password);
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+        try{
+            String sql="select * from questions";
+            PreparedStatement pstmt=conn.prepareStatement(sql);
+            ResultSet rs=pstmt.executeQuery();
+            while (rs.next()){
+                int questionId = rs.getInt("ID");
+                Question question = new Question(questionId,
+                        rs.getString("Content"),
+                        getAnswersByQuestionID(questionId),
+                        rs.getInt("AnswerNumber"),
+                        rs.getString("Subject"),
+                        rs.getString("Tag"));
+                result.add(question);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+            e.getNextException();
+            return null;
         }
         return result;
     }
@@ -205,21 +251,9 @@ public class QuestionCollectionController {
             ResultSet rs=pstmt.executeQuery();
             while (rs.next()){
                 int questionId = rs.getInt("ID");
-                sql="select * from answers where QuestionID=?";
-                pstmt=conn.prepareStatement(sql);
-                pstmt.setInt(1,questionId);
-                ResultSet answers = pstmt.executeQuery();
-                Vector<Answer> allAnswers = new Vector<>();
-                while (answers.next()){
-                    Answer answer = new Answer(answers.getInt("ID"),
-                            answers.getString("Content"),
-                            answers.getInt("QuestionID"),
-                            answers.getInt("Type"));
-                    allAnswers.add(answer);
-                }
                 Question question = new Question(questionId,
                         rs.getString("Content"),
-                        allAnswers,
+                        getAnswersByQuestionID(questionId),
                         rs.getInt("AnswerNumber"),
                         rs.getString("Subject"),
                         rs.getString("Tag"));
@@ -231,5 +265,91 @@ public class QuestionCollectionController {
             return null;
         }
         return null;
+    }
+
+    private Vector<Answer> getAnswersByQuestionID(int questionId){
+        Vector<Answer> allAnswers = new Vector<>();
+        String sql="select * from answers where QuestionID=?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1,questionId);
+            ResultSet answers = pstmt.executeQuery();
+            while (answers.next()){
+                Answer answer = new Answer(answers.getInt("ID"),
+                        answers.getString("Content"),
+                        answers.getInt("QuestionID"),
+                        answers.getInt("Type"));
+                allAnswers.add(answer);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return allAnswers;
+
+    }
+
+    private Vector<Question> getQuestionsByTagAndSubject(String tag, String subject){
+
+        Vector<Question> result = new Vector<>();
+        try{
+            conn= DriverManager.getConnection(url,user,password);
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+            return result;
+        }
+        try{
+            //建立PreparedStatement对象
+            String sql="select * from questions where Subject=? and Tag=?";
+            PreparedStatement pstmt=conn.prepareStatement(sql);
+            pstmt.setString(1,subject);
+            pstmt.setString(2,tag);
+            ResultSet rs=pstmt.executeQuery();
+            while (rs.next()){
+                int questionId = rs.getInt("ID");
+                Question question = new Question(questionId,
+                        rs.getString("Content"),
+                        getAnswersByQuestionID(questionId),
+                        rs.getInt("AnswerNumber"),
+                        rs.getString("Subject"),
+                        rs.getString("Tag"));
+                result.add(question);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+            e.getNextException();
+        }
+        return result;
+    }
+
+    private Vector<Question> getQuestionsByParameter(String name,String value){
+        Vector<Question> result = new Vector<>();
+        try{
+            conn= DriverManager.getConnection(url,user,password);
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+            return null;
+        }
+        try{
+            String sql="select * from questions where "+name+"=\""+value+"\"";
+            PreparedStatement pstmt=conn.prepareStatement(sql);
+            ResultSet rs=pstmt.executeQuery();
+            while (rs.next()){
+                int questionId = rs.getInt("ID");
+                Question question = new Question(questionId,
+                        rs.getString("Content"),
+                        getAnswersByQuestionID(questionId),
+                        rs.getInt("AnswerNumber"),
+                        rs.getString("Subject"),
+                        rs.getString("Tag"));
+                result.add(question);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+            e.getNextException();
+            return null;
+        }
+        return result;
     }
 }

@@ -23,14 +23,14 @@ public class UserServiceTest {
 
     @Test
     public void testAddStudents() {
-        User u = new User();
-        u.setName("a");
-        u.setEmail("123@163.com");
-        u.setClassnum("201401");
-        List<User> users = new ArrayList<>();
-        users.add(u);
-        service.saveStudents(users);
-
-        System.out.println(service.showStudentsByClass("201401").size());
+//        User u = new User();
+//        u.setName("a");
+//        u.setEmail("123@163.com");
+//        u.setClassnum("201401");
+//        List<User> users = new ArrayList<>();
+//        users.add(u);
+//        service.saveStudents(users);
+//
+//        System.out.println(service.showStudentsByClass("201401").size());
     }
 }

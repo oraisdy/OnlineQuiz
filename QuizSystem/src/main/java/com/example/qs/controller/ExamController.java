@@ -12,6 +12,7 @@ import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -32,12 +33,11 @@ public class ExamController {
     private String applicationName;
 
     @PostMapping(value = "/saveStudents")
-    public ResponseInfo saveStudents(@RequestBody List<User> users) {
+    public List<User> saveStudents(@RequestBody MultipartFile file) {
         ResponseInfo responseBody = new ResponseInfo();
 
-        int res = userService.saveStudents(users);
-        responseBody.setResponseStatus(res);
-        return responseBody;
+        List<User> res = userService.saveStudents(file);
+        return res;
     }
 
     @PostMapping(value = "/generateQuiz")
