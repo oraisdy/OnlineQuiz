@@ -42,9 +42,7 @@ public class ExamController {
 
     @PostMapping(value = "/generateQuiz")
     public ResponseInfo generateQuiz(@RequestBody Quiz quiz) {
-        ResponseInfo responseBody = new ResponseInfo();
-        examService.generateQuiz(quiz);
-        return responseBody;
+        return examService.generateQuiz(quiz);
     }
 
     @GetMapping(value = "/generatePaper")
@@ -54,10 +52,7 @@ public class ExamController {
 
     @PostMapping(value = "/saveAnswerSheet")
     public ResponseInfo saveAnswer(@RequestBody Map<String, Object> choices) {
-        ResponseInfo responseBody = new ResponseInfo();
-
-        examService.saveAnswer(choices);
-        return responseBody;
+        return examService.saveAnswer(choices);
     }
 
     @GetMapping(value = "/getAnswers")

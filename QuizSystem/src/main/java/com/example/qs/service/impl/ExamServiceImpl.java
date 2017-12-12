@@ -52,7 +52,7 @@ public class ExamServiceImpl implements ExamService {
     private String qcName;
 
     @Override
-    public String generateQuiz(Quiz quiz) {
+    public ResponseInfo generateQuiz(Quiz quiz) {
 
         Exam exam = new Exam();
         exam.setName(quiz.getName());
@@ -82,7 +82,11 @@ public class ExamServiceImpl implements ExamService {
         发送密码
          */
         sendPasswords(exam, candidates);
-        return  "";
+
+        ResponseInfo responseBody = new ResponseInfo();
+        responseBody.setResponseStatus(1);
+        responseBody.setResponseBody(exam);
+        return  responseBody;
     }
 
     public void saveScorevalues(Exam exam, List<Tag> scorevalue) {
@@ -143,7 +147,7 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public int saveAnswer(Map<String, Object> choices) {
+    public ResponseInfo saveAnswer(Map<String, Object> choices) {
 
         int examid = Integer.parseInt(choices.get("examid").toString());
         int userid = Integer.parseInt(choices.get("userid").toString());
@@ -163,7 +167,10 @@ public class ExamServiceImpl implements ExamService {
                 choiceDao.save(pk);
             }
         }
-        return 1;
+        ResponseInfo responseBody = new ResponseInfo();
+        responseBody.setResponseStatus(1);
+        responseBody.setResponseBody(choice);
+        return responseBody;
     }
 
     @Override

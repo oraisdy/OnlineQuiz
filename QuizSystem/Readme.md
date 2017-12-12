@@ -60,6 +60,20 @@ POST
 ```
 
 **返回结果**
+```
+{
+    "responseStatus": 1,
+    "responseBody": {
+        "id": 14,
+        "name": "test222",
+        "startat": "2017-12-01 13:17:42",
+        "endat": "2017-12-01 15:17:42",
+        "questionCount": 1,
+        "subject": "软件工程"
+    }
+}
+
+```
 
   - generatePaper
 
@@ -104,6 +118,18 @@ POST
 }
 ```
 **返回结果**
+
+```
+{
+    "responseStatus": 1,
+    "responseBody": [
+        {
+            "questionid": 10,
+            "answerid": []
+        }
+    ]
+}
+```
 
   - getAnswers
   

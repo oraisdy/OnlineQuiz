@@ -2,6 +2,7 @@ package com.example.qs.service;
 
 import com.example.qs.entity.Exam;
 import com.example.qs.entity.Quiz;
+import com.example.qs.entity.ResponseInfo;
 import com.example.qs.entity.User;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -13,13 +14,13 @@ import java.util.Map;
  */
 public interface ExamService {
 
-    String generateQuiz(Quiz quiz);
+    ResponseInfo generateQuiz(Quiz quiz);
 
     void sendPasswords(Exam exam, List<User> candidates);
 
     Map<String, Object> generatePaper(String authcode);
 
-    int saveAnswer(Map<String, Object> choices);
+    ResponseInfo saveAnswer(Map<String, Object> choices);
 
     Map<String, Object> getAnswers(int examid, int userid);
 }
