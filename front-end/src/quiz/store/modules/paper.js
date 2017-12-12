@@ -18,8 +18,11 @@ const getters = {
 // actions
 const actions = {
     getPaper({ commit }) {
-        paper.getOne(paper => {
-            commit(types.PAPER_RECEIVED, { paper })
+        paper.getOne('id').then(json => {
+            if (json.status === 200 && json.data) {
+                const paper = json.data
+                return commit(types.PAPER_RECEIVED, { paper })
+            } else return commit(types.PAPER_FETCH_FAILURE)
         })
     }
 }

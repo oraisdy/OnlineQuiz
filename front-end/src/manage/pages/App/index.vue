@@ -1,29 +1,49 @@
 <template>
-	<div id="app">
-		<!-- <Navbar :quiz="quiz"/> -->
-		<div class="container">	
-            <Quiz />
-            <!-- <h1>{{quiz.title}}</h1> -->
-            <!-- <router-view  :quiz="quiz"></router-view>		 -->
-		<!-- <Paper :quiz="quiz"/> -->
-		</div>
-	</div>
+    <div id="app">
+        <div class="container">
+            <el-menu :default-active="activeIndex" mode="horizontal" @select="handleSelect">
+                <el-menu-item index="1"> 创建考试
+                    <!--<router-link :to="paths.QUIZ">创建考试</router-link>-->
+                </el-menu-item>
+                <el-menu-item index="2"> 题库管理
+                    <!--<router-link :to="paths.REPOSITORY">题库管理</router-link>-->
+                </el-menu-item>
+                <el-menu-item index="3"> 考试查看
+                </el-menu-item>
+            </el-menu>
+            <router-view class="content"></router-view>
+        </div>
+    </div>
 </template>
 
 <script>
-import Quiz from '../Quiz'
+import { paths } from '../../router'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-    components: {
-        Quiz
+    data() {
+        return { paths, activeIndex: '1' }
+    },
+    methods: {
+        handleSelect(key, keyPath) {
+            switch (key) {
+                case '1':
+                    this.$router.push(paths.CREATE)
+                    break
+                case '2':
+                    this.$router.push(paths.REPOSITORY)
+                    break
+                case '3':
+                    this.$router.push(paths.QUIZS)
+                    break
+            }
+        }
     }
 }
 </script>
 
 <style lang="less">
 @import '../../variables.less';
-
 *,
 *::before,
 *::after {
@@ -44,9 +64,17 @@ export default {
     min-width: 400px;
     width: 80%;
     margin: 0 auto;
+
+    .content {
+        padding-top: 50px;
+    }
 }
 
 h1 {
     text-align: center;
+}
+
+a {
+    text-decoration: none;
 }
 </style>

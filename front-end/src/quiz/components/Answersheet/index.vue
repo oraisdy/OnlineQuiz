@@ -79,8 +79,7 @@ export default {
             )
             return this.$store.state.answersheet.marks.indexOf(pbId) !== -1
         }
-    },
-    created() {}
+    }
 }
 </script>
 

@@ -2,7 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 const paths = {
-    // APP: '/',
+    ENTRANCE: '/entrance',
     PAPER: '/paper',
     ANSWERSHEET: '/answersheet'
 }
@@ -13,6 +13,7 @@ Vue.use(VueRouter)
 // 1. 定义（路由）组件。
 // 可以从其他文件 import 进来
 import App from '../components/App'
+import Entrance from '../components/Entrance'
 import Paper from '../components/Paper'
 import Answersheet from '../components/Answersheet'
 
@@ -26,7 +27,8 @@ const routes = [
         path: '/',
         component: App,
         children: [
-            { path: '', redirect: paths.PAPER },
+            { path: '', redirect: paths.ENTRANCE },
+            { path: paths.ENTRANCE, component: Entrance },
             { path: paths.PAPER, component: Paper },
             { path: paths.ANSWERSHEET, component: Answersheet }
         ]

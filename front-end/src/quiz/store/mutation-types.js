@@ -1,10 +1,6 @@
-// export const ADD_TO_CART = 'ADD_TO_CART'
-// export const CHECKOUT_REQUEST = 'CHECKOUT_REQUEST'
-// export const CHECKOUT_SUCCESS = 'CHECKOUT_SUCCESS'
-// export const CHECKOUT_FAILURE = 'CHECKOUT_FAILURE'
-// export const RECEIVE_PRODUCTS = 'RECEIVE_PRODUCTS'
-
 export const PAPER_RECEIVED = 'paper_received'
+export const PAPER_FETCH_FAILURE = 'paper_fetch_failure'
+
 export const QUIZ_RECEIVED = 'quiz_received'
 export const ANSWERSHEET_POSTED = 'answersheet_posted'
 export const ANSWERSHEET_POST_FAILURE = 'answersheet_post_failure'

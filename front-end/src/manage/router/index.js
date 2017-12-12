@@ -1,7 +1,16 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-const paths = {}
+import App from '../pages/App'
+import Create from '../pages/Create'
+import Questions from '../pages/Questions'
+import Quizs from '../pages/quizs'
+const paths = {
+    APP: '/',
+    CREATE: '/create',
+    REPOSITORY: '/repository',
+    QUIZS: '/quizs'
+}
 
 // 0. 如果使用模块化机制编程，導入Vue和VueRouter，要调用 Vue.use(VueRouter)
 Vue.use(VueRouter)
@@ -15,15 +24,16 @@ Vue.use(VueRouter)
 // 或者，只是一个组件配置对象。
 // 我们晚点再讨论嵌套路由。
 const routes = [
-    // {
-    //     path: '/',
-    //     component: App,
-    //     children: [
-    //         { path: '', redirect: paths.PAPER },
-    //         { path: paths.PAPER, component: Paper },
-    //         { path: paths.ANSWERSHEET, component: Answersheet }
-    //     ]
-    // }
+    {
+        path: '/',
+        component: App,
+        children: [
+            { path: '', redirect: paths.CREATE },
+            { path: paths.CREATE, component: Create },
+            { path: paths.QUIZS, component: Quizs },
+            { path: paths.REPOSITORY, component: Questions }
+        ]
+    }
 ]
 
 // 3. 创建 router 实例，然后传 `routes` 配置
