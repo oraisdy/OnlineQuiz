@@ -154,29 +154,27 @@ public class ExamServiceImpl implements ExamService {
             int questionid = Integer.parseInt(object.get("questionid").toString());
             List<Integer> answers = (List)object.get("answerid");
             for(Integer ans : answers) {
-                ChoicePK pk = new ChoicePK();
+                Choice pk = new Choice();
                 pk.setExamid(examid);
                 pk.setUserid(userid);
                 pk.setQuestionid(questionid);
                 pk.setAnswerid(ans);
                 pk.setProblemnum(i);
-                Choice c = new Choice();
-                c.setId(pk);
-                choiceDao.save(c);
+                choiceDao.save(pk);
             }
         }
-        return 0;
+        return 1;
     }
 
-//    @Override
-//    public Map<String, Object> getAnswers(int examid, int userid) {
-//        ChoicePK pk = new ChoicePK();
-//        pk.setExamid(examid);
-//        pk.setUserid(userid);
-//        List<Choice> choices = choiceDao.findAll(pk);
-//        Map<String, Object> res = new HashMap<>();
-//        res.put("choices",choices);
-//        return res;
-//    }
+    @Override
+    public Map<String, Object> getAnswers(int examid, int userid) {
+        ChoicePK pk = new ChoicePK();
+        pk.setExamid(examid);
+        pk.setUserid(userid);
+        List<Choice> choices = choiceDao.findByExamidAndUserid(examid, userid);
+        Map<String, Object> res = new HashMap<>();
+        res.put("choices",choices);
+        return res;
+    }
 
 }

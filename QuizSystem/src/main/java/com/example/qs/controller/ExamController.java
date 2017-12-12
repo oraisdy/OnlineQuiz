@@ -1,6 +1,7 @@
 package com.example.qs.controller;
 
 import com.example.qs.entity.Quiz;
+import com.example.qs.entity.ResponseInfo;
 import com.example.qs.entity.Tag;
 import com.example.qs.entity.User;
 import com.example.qs.service.ExamService;
@@ -31,13 +32,19 @@ public class ExamController {
     private String applicationName;
 
     @PostMapping(value = "/saveStudents")
-    public void saveStudents(@RequestBody List<User> users) {
-        userService.saveStudents(users);
+    public ResponseInfo saveStudents(@RequestBody List<User> users) {
+        ResponseInfo responseBody = new ResponseInfo();
+
+        int res = userService.saveStudents(users);
+        responseBody.setResponseStatus(res);
+        return responseBody;
     }
 
     @PostMapping(value = "/generateQuiz")
-    public void generateQuiz(@RequestBody Quiz quiz) {
+    public ResponseInfo generateQuiz(@RequestBody Quiz quiz) {
+        ResponseInfo responseBody = new ResponseInfo();
         examService.generateQuiz(quiz);
+        return responseBody;
     }
 
     @GetMapping(value = "/generatePaper")
@@ -46,7 +53,16 @@ public class ExamController {
     }
 
     @PostMapping(value = "/saveAnswerSheet")
-    public int saveAnswer(@RequestBody Map<String, Object> choices) {
-        return examService.saveAnswer(choices);
+    public ResponseInfo saveAnswer(@RequestBody Map<String, Object> choices) {
+        ResponseInfo responseBody = new ResponseInfo();
+
+        examService.saveAnswer(choices);
+        return responseBody;
+    }
+
+    @GetMapping(value = "/getAnswers")
+    public Map<String, Object> getAnswers(@RequestParam int examid,
+                                          @RequestParam int userid) {
+        return examService.getAnswers(examid, userid);
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -32,15 +33,6 @@ public class QuestionCollectionController {
     private String password="2a617";
     private Connection conn;
 
-//    public static void main(String[] args) throws Exception{
-//        QuestionCollectionController qc = new QuestionCollectionController();
-//        File file = new File("/Users/dym/Documents/大作业/输入的试题.xlsx");
-//        FileInputStream in_file = new FileInputStream(file);
-//
-//        // 转 MultipartFile
-//        MultipartFile multi = new MockMultipartFile("模板. xls", in_file);
-//        System.out.println(qc.saveTheInputExcel(multi).size());
-//    }
 
     @RequestMapping("/service-instances/{applicationName}")
     public List<ServiceInstance> serviceInstancesByApplicationName(
@@ -174,6 +166,16 @@ public class QuestionCollectionController {
         }catch (SQLException e){
             e.printStackTrace();
             e.getNextException();
+        }
+        return result;
+    }
+
+    @CrossOrigin
+    @RequestMapping(value = "/getQuestionsByIDs" ,method = RequestMethod.POST)
+    public Vector<Question> getQuestionsByIDs(@RequestBody ArrayList<Integer> ids){
+        Vector<Question> result = new Vector<>();
+        for (int i = 0; i < ids.size(); i++) {
+            result.add(getQuestionByID(ids.get(i)));
         }
         return result;
     }

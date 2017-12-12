@@ -1,9 +1,12 @@
 ﻿ - saveStudents
 
 **请求方法**
+
 POST
 
 **请求参数格式**
+
+```
 [
   {
     "email": "141250030@nju.edu.cn",
@@ -16,15 +19,19 @@ POST
     "name": "b"
   }
 ]
+```
+
 **返回结果**
 
 
   - generateQuiz
  
 **请求方法**
+
 POST
 
 **请求参数格式**
+```
 {
     "name": "test",
     "subject": "软件工程",
@@ -50,27 +57,37 @@ POST
         "201403"
     ]
 }
+```
+
 **返回结果**
 
   - generatePaper
 
 **请求方法**
+
 GET
 
 **请求参数格式**
-authcode:String
+
+authcode    String
+
 **返回结果**
+```
 {
 "examid": 12,
 "questions": [],
 "userid": 141250051
 }
+```
 
   - saveAnswerSheet
+  
 **请求方法**
+
 POST
 
 **请求参数格式**
+```
 {
     "examid": 12,
     "userid": 141250051,
@@ -85,6 +102,46 @@ POST
         }
     ]
 }
+```
 **返回结果**
 
+  - getAnswers
+  
+**请求方法**
 
+GET
+
+**请求参数格式**
+
+examid   int    考试id
+
+userid  int 学生id
+
+
+**返回结果**
+```
+{
+"choices": [
+  {
+"examid": 12,
+"userid": 141250051,
+"questionid": 4,
+"answerid": 9,
+"problemnum": 1
+},
+  {
+"examid": 12,
+"userid": 141250051,
+"questionid": 4,
+"answerid": 10,
+"problemnum": 1
+},
+  {
+"examid": 12,
+"userid": 141250051,
+"questionid": 5,
+"answerid": 17,
+"problemnum": 2
+}
+],
+```
