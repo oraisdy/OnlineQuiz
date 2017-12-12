@@ -7,22 +7,16 @@ import java.io.Serializable;
 /**
  * Created by phoebegl on 2017/12/11.
  */
-@Embeddable
 public class ChoicePK implements Serializable{
 
-    @Column(name = "examid")
     private int examid;
 
-    @Column(name = "userid")
     private int userid;
 
-    @Column(name = "questionid")
     private int questionid;
 
-    @Column(name = "answerid")
     private int answerid;
 
-    @Column(name = "problem_num")
     private int problemnum;
 
     public int getExamid() {

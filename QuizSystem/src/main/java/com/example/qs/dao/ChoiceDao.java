@@ -16,4 +16,5 @@ import java.util.List;
 @Repository
 public interface ChoiceDao extends JpaRepository<Choice, ChoicePK>{
 
+    List<Choice> findByExamidAndUserid(int examid, int userid);
 }

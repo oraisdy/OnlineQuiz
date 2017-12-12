@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
             user.setRole("Student");
             userDao.save(user);
         }
-        return 0;
+        return 1;
     }
 
     @Override

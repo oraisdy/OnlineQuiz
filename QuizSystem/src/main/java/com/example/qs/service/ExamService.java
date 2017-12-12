@@ -20,4 +20,6 @@ public interface ExamService {
     Map<String, Object> generatePaper(String authcode);
 
     int saveAnswer(Map<String, Object> choices);
+
+    Map<String, Object> getAnswers(int examid, int userid);
 }
