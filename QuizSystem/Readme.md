@@ -89,7 +89,16 @@ authcode    String
 ```
 {
 "examid": 12,
-"questions": [],
+"question": [
+        {
+            "id": 10,
+            "title": "test",
+            "allAnswers": [],
+            "answerNumber": 3,
+            "subject": "软件工程",
+            "tag": "123"
+        }
+    ],
 "userid": 141250051
 }
 ```
