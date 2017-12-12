@@ -1,18 +1,18 @@
 package com.example.jw.domain;
 
 public class User {
-    private Integer id;
+    private Integer Id;
     private String Name;
     private String Email;
     private String Role;
     private String Classname;
 
     public Integer getId() {
-        return id;
+        return Id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setId(Integer Id) {
+        this.Id = Id;
     }
 
     public String getName() {

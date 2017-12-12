@@ -4,6 +4,7 @@ import com.example.jw.domain.Exam_user;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -16,4 +17,10 @@ public interface Exam_userMapper {
 
     @Select("select * from exam_user where exam_id = #{exam_id}")
     List<Exam_user> getScoreByExamId(@Param("exam_id") int exam_id);
+
+    @Update("update exam_user set Score = #{score} where user_id = #{user_id} and exam_id = #{exam_id}")
+    int updateUniqueScore(@Param("score") int score, @Param("user_id") int user_id, @Param("exam_id") int exam_id);
+
+    @Update("update exam_user set Score = #{score} where exam_id = #{exam_id}")
+    int updateScoreByExamId(@Param("score") int score, @Param("exam_id") int exam_id);
 }

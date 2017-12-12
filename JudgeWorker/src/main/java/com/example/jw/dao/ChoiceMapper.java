@@ -9,6 +9,6 @@ import org.springframework.stereotype.Component;
 @Mapper
 @Component(value = "ChoiceMapper")
 public interface ChoiceMapper {
-    @Select("select * from choice where ExamId = #{ExamId}")
-    Choice getByExamId(@Param("ExamId") int ExamId);
+    @Select("select * from choice where examid = #{examid}")
+    Choice getByExamId(@Param("examid") int examid);
 }

@@ -41,6 +41,28 @@ public class DcController {
         return scoreService.getScore(userid, quizid);
     }
 
+    @RequestMapping(value = "/calScore", method = RequestMethod.GET)
+    public List calScore(HttpServletRequest request) {
+        int quizid = Integer.parseInt(request.getParameter("quizid"));
+        if(request.getParameter("userid")==null){
+            return scoreService.calScoreByExamId(quizid);
+        }
+        int userid = Integer.parseInt(request.getParameter("userid"));
+
+        return scoreService.calScore(userid, quizid);
+    }
+
+    @RequestMapping(value = "/updateScore", method = RequestMethod.GET)
+    public int updateScore(HttpServletRequest request) {
+        int score = Integer.parseInt(request.getParameter("score"));
+        int quizid = Integer.parseInt(request.getParameter("quizid"));
+        if(request.getParameter("userid")==null){
+            return scoreService.updateScoreByExamId(score, quizid);
+        }
+        int userid = Integer.parseInt(request.getParameter("userid"));
+        return scoreService.updateScore(score, userid, quizid);
+    }
+
     @GetMapping("/consumer")
     public String testAdd() {
         ServiceInstance serviceInstance = loadBalancerClient.choose(qcName);
