@@ -1,4 +1,4 @@
-package com.example.jw;
+package com.example.qs;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
