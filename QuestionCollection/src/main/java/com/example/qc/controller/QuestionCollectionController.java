@@ -162,7 +162,7 @@ public class QuestionCollectionController {
             return null;
         }
         try{
-            String sql="select Subject from questions";
+            String sql="select DISTINCT Subject from questions";
             PreparedStatement pstmt=conn.prepareStatement(sql);
             ResultSet rs=pstmt.executeQuery();
             while (rs.next()){
@@ -188,9 +188,9 @@ public class QuestionCollectionController {
             return null;
         }
         try{
-            String sql="select Tag from questions";
+            String sql="select DISTINCT Tag from questions";
             if (request.getParameter("subject") != null){
-                sql = "SELECT Tag FROM questions WHERE Subject=\""+request.getParameter("subject")+"\"";
+                sql = "SELECT DISTINCT Tag FROM questions WHERE Subject=\""+request.getParameter("subject")+"\"";
             }
             PreparedStatement pstmt=conn.prepareStatement(sql);
             ResultSet rs=pstmt.executeQuery();

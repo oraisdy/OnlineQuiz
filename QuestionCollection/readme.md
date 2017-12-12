@@ -112,3 +112,96 @@ null
 
 []
 
+### getQuestions
+
+**request**: GET
+
+**url:** /getQuestions
+
+**请求参数**
+
+| 参数名称    | 参数类型   | 说明      |
+| ------- | ------ | ------- |
+| tag     | String | 问题标签，可选 |
+| subject | String | 所属科目，可选 |
+
+**返回结果**
+
+***success***:
+
+```
+{
+    "examid": 1,
+    "questions": [
+        {
+            "id": 1,
+            "title": "hahaha",
+            "allAnswers": [
+                {
+                    "id": 1,
+                    "content": "对",
+                    "questionId": 1,
+                    "type": 1
+                }
+            ],
+            "answerNumber": 1,
+            "subject": "software",
+            "tag": "tag"
+        }
+    ],
+    "userid": 2
+}
+```
+
+***failed***:
+
+[]
+
+### getAllSubjects
+
+**request**: GET
+
+**url:** /getAllSubjects
+
+**请求参数**
+
+| 参数名称 | 参数类型 | 说明   |
+| ---- | ---- | ---- |
+| 无    | 无    | 无    |
+
+**返回结果**
+
+***success***:
+
+```
+["software","软件工程"]
+```
+
+***failed***:
+
+null
+
+### getTags
+
+**request**: GET
+
+**url:** /getTags
+
+**请求参数**
+
+| 参数名称    | 参数类型   | 说明    |
+| ------- | ------ | ----- |
+| subject | String | 科目，可选 |
+
+**返回结果**
+
+***success***:
+
+```
+["tag","错"]
+```
+
+***failed***:
+
+null
+
