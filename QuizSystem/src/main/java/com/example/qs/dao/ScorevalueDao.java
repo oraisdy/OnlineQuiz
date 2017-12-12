@@ -13,5 +13,7 @@ import java.util.List;
 @Repository
 public interface ScorevalueDao extends JpaRepository<ScoreValue, ScoreValuePK> {
 
+    List<ScoreValue> findByExamid(int examid);
 
+    List<ScoreValue> findByExamidAndProblemnum(int examid,int problemnum);
 }

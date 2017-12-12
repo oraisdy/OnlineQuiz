@@ -7,17 +7,13 @@ import java.io.Serializable;
 /**
  * Created by phoebegl on 2017/12/11.
  */
-@Embeddable
 public class ScoreValuePK implements Serializable {
 
-    @Column(name = "exam_id")
     private int examid;
 
-    @Column(name = "question_id")
     private int questionid;
 
-    @Column(name = "Problem_num")
-    private int problem_num;
+    private int problemnum;
 
     public int getExamid() {
         return examid;
@@ -36,10 +32,10 @@ public class ScoreValuePK implements Serializable {
     }
 
     public int getProblem_num() {
-        return problem_num;
+        return problemnum;
     }
 
     public void setProblem_num(int problem_num) {
-        this.problem_num = problem_num;
+        this.problemnum = problem_num;
     }
 }

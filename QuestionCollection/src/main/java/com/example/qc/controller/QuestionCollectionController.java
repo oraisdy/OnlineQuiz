@@ -180,6 +180,16 @@ public class QuestionCollectionController {
         return result;
     }
 
+    @CrossOrigin
+    @RequestMapping(value = "/getQuestionsByIDs" ,method = RequestMethod.POST)
+    public Vector<Question> getAllQuestionsByIDs(@RequestBody ArrayList<Integer> ids){
+        Vector<Question> result = new Vector<>();
+        for (int i = 0; i < ids.size(); i++) {
+            result.add(getQuestionByID(ids.get(i)));
+        }
+        return result;
+    }
+
     private Question getQuestionByID(int id){
         try{
             conn= DriverManager.getConnection(url,user,password);

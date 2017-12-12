@@ -8,14 +8,12 @@ import com.example.qs.dao.ScorevalueDao;
 import com.example.qs.entity.*;
 import com.example.qs.service.ExamService;
 import com.example.qs.service.UserService;
-import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
@@ -100,14 +98,12 @@ public class ExamServiceImpl implements ExamService {
                 String url = baseurl+"&tag="+t;
                 List<LinkedHashMap> questions = restTemplate.getForObject(url, List.class);
                 for (LinkedHashMap q : questions) {
-                    ScoreValuePK pk = new ScoreValuePK();
+                    ScoreValue pk = new ScoreValue();
                     pk.setExamid(exam.getId());
                     pk.setQuestionid(Integer.parseInt(q.get("id").toString()));
-                    pk.setProblem_num(i);
-                    ScoreValue sv = new ScoreValue();
-                    sv.setId(pk);
-                    sv.setScorevalue(value);
-                    scorevalueDao.save(sv);
+                    pk.setProblemnum(i);
+                    pk.setScorevalue(value);
+                    scorevalueDao.save(pk);
                 }
             }
         }
@@ -130,19 +126,42 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public Map<String, Object> generatePaper(String authcode) {
-        Map<String, Object> result = new HashMap<String, Object>();
+        Map<String, Object> result = new HashMap<>();
 
         String origin = Encrypt.decode(authcode);
+//        String origin = "1 141250047";
         String[] temp = origin.split(" ");
         int examid = Integer.parseInt(temp[0]);
         int userid = Integer.parseInt(temp[1]);
 
         result.put("examid", examid);
         result.put("userid",userid);
+        ArrayList<Integer> questionIds = new ArrayList<>();
+        List<ScoreValue> scoreValues = scorevalueDao.findByExamid(examid);
+        ArrayList<Integer> nums = new ArrayList<>();
+        for (int i = 0; i < scoreValues.size(); i++) {
+            if (!nums.contains(scoreValues.get(i).getProblemnum())){
+                nums.add(scoreValues.get(i).getProblemnum());
+            }
+        }
 
-        //TODO
-        result.put("questions",new ArrayList<>());
-
+        for (int i = 0; i < nums.size(); i++) {
+            List<ScoreValue> values = scorevalueDao.findByExamidAndProblemnum(examid,nums.get(i));
+            Random random = new Random();
+            int index = random.nextInt(values.size());
+            int count = 0;
+            while (questionIds.contains(values.get(index).getQuestionid())){
+                count ++;
+                index = random.nextInt(values.size());
+                if (count > 100){
+                    break;
+                }
+            }
+            questionIds.add(values.get(index).getQuestionid());
+        }
+        String url = "http://localhost:2222/getQuestionsByIDs";
+        Vector<Question> questions = restTemplate.postForObject(url,questionIds,Vector.class);
+        result.put("question",questions);
         return result;
     }
 

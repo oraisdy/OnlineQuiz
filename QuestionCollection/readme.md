@@ -68,3 +68,47 @@
 
 null
 
+### getQuestionsByIDs
+
+**request**: POST
+
+**url:** /getQuestionsByIDs
+
+**请求参数**
+
+| Body名称 | Body类型             | 说明            |
+| ------ | ------------------ | ------------- |
+| ids    | ArrayList<Integer> | 传入的questionId |
+
+**返回结果**
+
+***success***:
+
+```
+{
+    "examid": 1,
+    "questions": [
+        {
+            "id": 1,
+            "title": "hahaha",
+            "allAnswers": [
+                {
+                    "id": 1,
+                    "content": "对",
+                    "questionId": 1,
+                    "type": 1
+                }
+            ],
+            "answerNumber": 1,
+            "subject": "software",
+            "tag": "tag"
+        }
+    ],
+    "userid": 2
+}
+```
+
+***failed***:
+
+[]
+
