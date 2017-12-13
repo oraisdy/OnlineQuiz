@@ -16,4 +16,7 @@ public interface UserService {
 
     void corelationExamUser(int examid, List<User> users);
 
+    List<String> getClasses();
+
+    User findById(int userid);
 }

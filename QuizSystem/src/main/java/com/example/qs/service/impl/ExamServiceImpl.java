@@ -134,8 +134,8 @@ public class ExamServiceImpl implements ExamService {
         int examid = Integer.parseInt(temp[0]);
         int userid = Integer.parseInt(temp[1]);
 
-        result.put("examid", examid);
-        result.put("userid",userid);
+        result.put("examid", examDao.findById(examid));
+        result.put("userid",userService.findById(userid));
         ArrayList<Integer> questionIds = new ArrayList<>();
         List<ScoreValue> scoreValues = scorevalueDao.findByExamid(examid);
         ArrayList<Integer> nums = new ArrayList<>();

@@ -17,4 +17,8 @@ public interface UserDao extends JpaRepository<User, Integer> {
 
     List<User> findByClassnum(String classid);
 
+    @Query("select DISTINCT classnum FROM User")
+    List<String> findAllClasses();
+
+    User findById(int userid);
 }

@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ExamDao extends JpaRepository<Exam, Integer>{
+
+    Exam findById(int examid);
 }

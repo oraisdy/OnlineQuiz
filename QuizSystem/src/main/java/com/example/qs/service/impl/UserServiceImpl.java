@@ -73,4 +73,14 @@ public class UserServiceImpl implements UserService {
             examUserDao.save(examUser);
         }
     }
+
+    @Override
+    public List<String> getClasses() {
+        return userDao.findAllClasses();
+    }
+
+    @Override
+    public User findById(int userid) {
+        return userDao.findById(userid);
+    }
 }

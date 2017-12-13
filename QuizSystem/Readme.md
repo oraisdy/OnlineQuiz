@@ -88,19 +88,47 @@ authcode    String
 **返回结果**
 ```
 {
-"examid": 12,
-"question": [
+    "question":[
         {
-            "id": 10,
-            "title": "test",
-            "allAnswers": [],
-            "answerNumber": 3,
-            "subject": "软件工程",
-            "tag": "123"
+            "id":13,
+            "title":"test",
+            "allAnswers":[
+                {
+                    "id":49,
+                    "content":"对",
+                    "questionId":13,
+                    "type":1
+                },
+                {
+                    "id":50,
+                    "content":"对",
+                    "questionId":13,
+                    "type":1
+                }
+            ],
+            "answerNumber":3,
+            "subject":"软件工程",
+            "tag":"123"
         }
     ],
-"userid": 141250051
+    "examid":{
+        "id":14,
+        "name":"test222",
+        "startat":"2017-12-01 13:17:42.0",
+        "endat":"2017-12-01 15:17:42.0",
+        "questionCount":1,
+        "subject":"????"
+    },
+    "userid":{
+        "id":141250051,
+        "name":"b",
+        "email":"141250037@smail.nju.edu.cn",
+        "role":"Student",
+        "classnum":"201403"
+    }
 }
+
+
 ```
 
   - saveAnswerSheet
@@ -178,5 +206,25 @@ userid  int 学生id
 "answerid": 17,
 "problemnum": 2
 }
+],
+```
+
+  - getAllClasses
+  
+**请求方法**
+
+GET
+
+**请求参数格式**
+
+
+**返回结果**
+```
+
+[
+  "201401",
+  "201403",
+  "??",
+  "班级"
 ],
 ```

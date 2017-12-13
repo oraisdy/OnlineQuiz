@@ -32,6 +32,7 @@ public class ExamController {
     @Value("${spring.application.name}")
     private String applicationName;
 
+    @CrossOrigin
     @PostMapping(value = "/saveStudents")
     public List<User> saveStudents(@RequestBody MultipartFile file) {
         ResponseInfo responseBody = new ResponseInfo();
@@ -40,24 +41,34 @@ public class ExamController {
         return res;
     }
 
+    @CrossOrigin
     @PostMapping(value = "/generateQuiz")
     public ResponseInfo generateQuiz(@RequestBody Quiz quiz) {
         return examService.generateQuiz(quiz);
     }
 
+    @CrossOrigin
     @GetMapping(value = "/generatePaper")
     public Map<String, Object> generatePaper(@RequestParam String authcode) {
         return examService.generatePaper(authcode);
     }
 
+    @CrossOrigin
     @PostMapping(value = "/saveAnswerSheet")
     public ResponseInfo saveAnswer(@RequestBody Map<String, Object> choices) {
         return examService.saveAnswer(choices);
     }
 
+    @CrossOrigin
     @GetMapping(value = "/getAnswers")
     public Map<String, Object> getAnswers(@RequestParam int examid,
                                           @RequestParam int userid) {
         return examService.getAnswers(examid, userid);
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "/getAllClasses")
+    public List<String> getClasses() {
+        return userService.getClasses();
     }
 }
