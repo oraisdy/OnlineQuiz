@@ -15,11 +15,11 @@ const getters = {
 
 const actions = {
     postAnswersheet({ commit }, ansSht) {
-        answersheet.postOne(
-            ansSht,
-            ({ msg }) => commit(types.ANSWERSHEET_POSTED, { msg }),
-            () => commit(types.ANSWERSHEET_POST_FAILURE)
-        )
+        answersheet.postOne(ansSht).then(json => {
+            if (json.status === 200) {
+                return commit(types.ANSWERSHEET_POSTED, { msg: '提交成功' })
+            } else commit(types.ANSWERSHEET_POST_FAILURE, { msg: json })
+        })
     },
     saveAnswersheet({ commit }, ansSht) {
         localStorage.setItem(

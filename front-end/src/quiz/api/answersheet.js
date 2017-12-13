@@ -1,10 +1,9 @@
-const _resp = {
-    msg: '提交成功'
-}
+import axios from 'axios'
+import * as config from '../config'
 
 export default {
-    postOne(ansSht, cb, errCb) {
-        console.log(ansSht)
-        setTimeout(() => cb(_resp), 100)
+    postOne(ansSht) {
+        console.log('ansSht', ansSht)
+        return axios.post(`${config.QS_API_URL}/saveAnswerSheet`, ansSht)
     }
 }

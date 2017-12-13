@@ -23,7 +23,6 @@ export default {
     },
     computed: {
         isPaper() {
-            console.log('$route', this.$route)
             return this.$route.matched[1].path === '/paper'
         },
         isAnswerSheet() {

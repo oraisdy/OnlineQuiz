@@ -5,7 +5,7 @@
             [{{index+1}}] {{problem.title}}
         </div>
         <div class='options'>
-            <label class='option' v-for="(option, index) in problem.options" :key="index">
+            <label class='option' v-for="(option, index) in problem.allAnswers" :key="index">
                 <problem-option-input v-model="option.checked"/>
                 <span>{{index+1}} {{option.content}}</span>
             </label>

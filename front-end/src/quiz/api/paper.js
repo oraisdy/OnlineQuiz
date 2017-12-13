@@ -1,12 +1,12 @@
 import axios from 'axios'
-import mock from './mock'
-mock(axios)
+import * as config from '../config'
+// import mock from './mock'
+// mock(axios)
 
 export default {
-    // getOne(cb) {
-    //     setTimeout(() => cb(_paper), 100)
-    // }
-    getOne(id) {
-        return axios.get('/paper')
+    getOne({ authcode }) {
+        return axios.get(`${config.QS_API_URL}/generatePaper`, {
+            params: { authcode }
+        })
     }
 }

@@ -10,6 +10,6 @@ export default function(axios) {
     mock.reset()
 
     // mock.onAny().reply(200, tags);
-    mock.onGet(/.*\/paper/).reply(200, _paper)
+    mock.onGet(/.*\/generatePaper/).reply(200, _paper)
     // mock.onGet(/.*\/tag\/all/).reply(200, tag)
 }

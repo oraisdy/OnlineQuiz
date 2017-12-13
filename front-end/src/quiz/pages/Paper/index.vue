@@ -39,27 +39,22 @@ export default {
         }
     },
     created() {
-        this.$store.dispatch('getPaper')
+        this.$store.dispatch('getPaper', {
+            authcode: 'hmEHHxrs9jZyIoS7IHs3gg=='
+        })
     }
-    // methods: {
-    //     submitAnswers() {
-    //         var answers = mapProblemsToAnswers(this.problems)
-    //         this.$store.dispatch('saveAnswersheet', { problems: answers })
-    //         // var answers = this.problems.map(pb => ({
-    //         //     id: pb.id,
-    //         //     answers: pb.options
-    //         //         .filter(ans => ans.checked)
-    //         //         .map(ans => ans.id)
-    //         // }))
-    //         // this.$store.dispatch('postAnswersheet', answers)
-    //     }
-    // }
 }
 
 function mapProblemsToAnswers(pbs) {
     return pbs.map(pb => ({
         id: pb.id,
-        answers: pb.options.filter(ans => ans.checked).map(ans => ans.id)
+        answers: pb.allAnswers
+            .map((ans, index) => ({
+                id: ans.id,
+                index: index + 1,
+                checked: ans.checked
+            }))
+            .filter(ans => ans.checked)
     }))
 }
 </script>

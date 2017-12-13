@@ -1,4 +1,5 @@
 <template>
+<div class='content'>
 <table class='answers-table-container'>
   <tr hidden><th colspan="2"></th></tr>
   <tr class="answers-table" cellspacing="0" cellpadding="0">
@@ -13,7 +14,7 @@
              <router-link :to="paths.PAPER+'#pb'+problem.index">{{problem.index}}</router-link>
           </div>
         </td>
-        <td class='answers-table-td'>{{problem.answers}}</td>
+        <td class='answers-table-td'>{{problem.answers.map(ans => ans.index)}}</td>
       </tr>
   
   </table>
@@ -29,14 +30,15 @@
              <router-link :to="paths.PAPER+'#pb'+problem.index">{{problem.index}}</router-link>
           </div>
         </td>
-        <td class='answers-table-td'>{{problem.answers}}</td>
+        <td class='answers-table-td'>{{problem.answers.map(ans => ans.index)}}</td>
       </tr>
   
   </table>
     </td>
   </tr>
 </table>
-  
+  <button @click="submitAnswers" class='submit-btn'>确定交卷</button>
+  </div>
 </template>
 
 <script>
@@ -55,7 +57,7 @@ export default {
             return this.problems
                 .slice(0, Math.ceil(this.problems.length / 2))
                 .map((pb, index) => {
-                    pb.index = index
+                    pb.index = index + 1
                     return pb
                 })
         },
@@ -66,7 +68,7 @@ export default {
                     this.problems.length
                 )
                 .map((pb, index) => {
-                    pb.index = Math.ceil(this.problems.length / 2) + index + 1
+                    pb.index = Math.ceil(this.problems.length / 2) + index + 2
                     return pb
                 })
         }
@@ -78,6 +80,17 @@ export default {
                 this.$store.state.answersheet
             )
             return this.$store.state.answersheet.marks.indexOf(pbId) !== -1
+        },
+        submitAnswers() {
+            var answers = this.$store.state.answersheet.problems.map(pb => ({
+                questionid: pb.id,
+                answerid: pb.answers.map(ans => ans.id)
+            }))
+            this.$store.dispatch('postAnswersheet', {
+                examid: this.$store.state.paper.examid,
+                userid: this.$store.state.paper.userid,
+                choice: answers
+            })
         }
     }
 }
@@ -89,6 +102,9 @@ export default {
 a {
     text-decoration: none;
     color: @vue-blue;
+}
+.content {
+    text-align: center;
 }
 .answers-table-container {
     border-collapse: collapse;
@@ -139,5 +155,16 @@ a {
             }
         }
     }
+}
+.submit-btn {
+    background: @vue-blue;
+    color: @white;
+    width: 100px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 1em;
+    padding: 0;
+    margin: 0 auto;
+    text-align: center;
 }
 </style>
