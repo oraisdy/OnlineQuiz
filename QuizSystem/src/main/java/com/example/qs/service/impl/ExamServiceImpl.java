@@ -161,7 +161,7 @@ public class ExamServiceImpl implements ExamService {
             }
             questionIds.add(values.get(index).getQuestionid());
         }
-        ServiceInstance serviceInstance = loadBalancerClient.choose(esName);
+        ServiceInstance serviceInstance = loadBalancerClient.choose(qcName);
         String url = "http://" + serviceInstance.getHost() + ":" + serviceInstance.getPort()+"/getQuestionsByIDs";
         Vector<Question> questions = restTemplate.postForObject(url,questionIds,Vector.class);
         result.put("question",questions);
