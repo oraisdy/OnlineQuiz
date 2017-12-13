@@ -35,8 +35,6 @@ public class ExamController {
     @CrossOrigin
     @PostMapping(value = "/saveStudents")
     public List<User> saveStudents(@RequestBody MultipartFile file) {
-        ResponseInfo responseBody = new ResponseInfo();
-
         List<User> res = userService.saveStudents(file);
         return res;
     }

@@ -10,8 +10,8 @@ import com.example.qs.service.ExamService;
 import com.example.qs.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
-import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -89,7 +89,8 @@ public class ExamServiceImpl implements ExamService {
 
     public void saveScorevalues(Exam exam, List<Tag> scorevalue) {
         String subject = exam.getSubject();
-        String baseurl = "http://localhost:2222/getQuestionsByTagAndSubject?subject="+subject;
+        ServiceInstance serviceInstance = loadBalancerClient.choose(qcName);
+        String baseurl = "http://" + serviceInstance.getHost() + ":" + serviceInstance.getPort()+"/getQuestions?subject="+subject;
         for(int i = 1;i<=scorevalue.size();i++) {
             Tag tag = scorevalue.get(i-1);
             List<String> tags = tag.getTags();
@@ -112,7 +113,8 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public void sendPasswords(Exam exam, List<User> candidates) {
-        String url = "http://localhost:5555/sendEmail";
+        ServiceInstance serviceInstance = loadBalancerClient.choose(esName);
+        String url = "http://" + serviceInstance.getHost() + ":" + serviceInstance.getPort()+"/sendEmail";
         for (User u : candidates) {
             String subject = exam.getName()+"考试密码";
             String content = Encrypt.encode(String.valueOf(exam.getId())+" "+String.valueOf(u.getId()));
@@ -159,7 +161,8 @@ public class ExamServiceImpl implements ExamService {
             }
             questionIds.add(values.get(index).getQuestionid());
         }
-        String url = "http://localhost:2222/getQuestionsByIDs";
+        ServiceInstance serviceInstance = loadBalancerClient.choose(esName);
+        String url = "http://" + serviceInstance.getHost() + ":" + serviceInstance.getPort()+"/getQuestionsByIDs";
         Vector<Question> questions = restTemplate.postForObject(url,questionIds,Vector.class);
         result.put("question",questions);
         return result;
