@@ -7,6 +7,14 @@ public class User {
     private String Role;
     private String Classname;
 
+    public User(Integer Id, String Name, String Email, String Role, String Classname) {
+        setId(Id);
+        setName(Name);
+        setEmail(Email);
+        setRole(Role);
+        setClassname(Classname);
+    }
+
     public Integer getId() {
         return Id;
     }

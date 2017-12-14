@@ -2,8 +2,11 @@ package com.example.jw.service;
 
 import com.example.jw.dao.Exam_userMapper;
 import com.example.jw.dao.StatisticMapper;
+import com.example.jw.dao.UserMapper;
 import com.example.jw.domain.Exam_user;
+import com.example.jw.domain.Exam_user_full;
 import com.example.jw.domain.Statistic;
+import com.example.jw.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +19,13 @@ public class ScoreService {
     @Autowired
     Exam_userMapper Exam_userMapper;
 
+    @Autowired
+    UserMapper UserMapper;
+
     public List getScore(int user_id, int exam_id) {
-        ArrayList<Exam_user> list = new ArrayList<Exam_user>();
-        Exam_user exam_user = Exam_userMapper.getUniqueScore(user_id, exam_id);
-        list.add(exam_user);
+        Exam_user_full exam_user_full = Exam_userMapper.getUniqueScore(user_id, exam_id);
+        ArrayList<Exam_user_full> list = new ArrayList<Exam_user_full>();
+        list.add(exam_user_full);
         return list;
     }
 

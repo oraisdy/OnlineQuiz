@@ -5,13 +5,13 @@ get
 userid, int  
 quizid, int  
 **url**  
-/getScore?userid=141250050&quizid=5  
+/getScore?userid=141250050&quizid=12  
 **result**  
-[{"exam_id":5,"user_id":141250050,"score":0}]  
+[{"exam_id":12,"user":{"name":"a","id":141250050,"role":"Student","email":"141250030@nju.edu.cn","classname":"201403"},"score":0}]  
 **url**  
-/getScore?quizid=5  
+/getScore?quizid=12  
 **result**  
-[{"exam_id":5,"user_id":141250050,"score":0},{"exam_id":5,"user_id":141250051,"score":0}]
+[{"exam_id":12,"user":{"name":"a","id":141250050,"role":"Student","email":"141250030@nju.edu.cn","classname":"201403"},"score":0},{"exam_id":12,"user":{"name":"b","id":141250051,"role":"Student","email":"141250037@smail.nju.edu.cn","classname":"201403"},"score":0}]
 
 ###calScore
 **request:**  
