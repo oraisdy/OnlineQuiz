@@ -18,12 +18,6 @@ export default {
         Paper,
         Navbar
     }
-    // computed: mapGetters({
-    //     quiz: 'quiz'
-    // }),
-    // created() {
-    //     this.$store.dispatch('getQuiz')
-    // }
 }
 </script>
 

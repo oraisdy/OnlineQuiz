@@ -9,7 +9,6 @@ import {
     Form,
     Input,
     Col,
-    // Message,
     Upload,
     Table,
     TableColumn,
@@ -32,7 +31,6 @@ Vue.use(MenuItem)
 Vue.use(Button)
 Vue.use(Table)
 Vue.use(TableColumn)
-// Vue.use(Message)
 Vue.use(Upload)
 Vue.use(Col)
 Vue.use(Row)

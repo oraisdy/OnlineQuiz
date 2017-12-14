@@ -4,12 +4,14 @@ import VueRouter from 'vue-router'
 import App from '../pages/App'
 import Create from '../pages/Create'
 import Questions from '../pages/Questions'
-import Quizs from '../pages/quizs'
+import Quizs from '../pages/Quizs'
+import Score from '../pages/Score'
 const paths = {
     APP: '/',
     CREATE: '/create',
     REPOSITORY: '/repository',
-    QUIZS: '/quizs'
+    QUIZS: '/quizs',
+    SCORE: '/score'
 }
 
 // 0. 如果使用模块化机制编程，導入Vue和VueRouter，要调用 Vue.use(VueRouter)
@@ -31,7 +33,8 @@ const routes = [
             { path: '', redirect: paths.CREATE },
             { path: paths.CREATE, component: Create },
             { path: paths.QUIZS, component: Quizs },
-            { path: paths.REPOSITORY, component: Questions }
+            { path: paths.REPOSITORY, component: Questions },
+            { path: paths.SCORE, component: Score }
         ]
     }
 ]

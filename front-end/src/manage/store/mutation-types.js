@@ -12,3 +12,6 @@ export const QUIZ_POST_FAILURE = 'quiz_post_failure'
 
 export const EXAMS_RECEIVED = 'exam_received'
 export const EXAMS_FETCH_FAILURE = 'exam_fetch_failure'
+
+export const SCORES_RECEIVED = 'scores_received'
+export const SCORES_FETCH_FAILURE = 'scores_fetch_failure'
