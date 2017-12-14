@@ -4,8 +4,11 @@
             <el-input v-model="quiz.name"></el-input>
         </el-form-item>
         <el-form-item label="考试课程" prop="subject">
-            <el-input v-model="quiz.subject"></el-input>
+            <el-select v-model="quiz.subject" placeholder="请选择考试科目">
+                <el-option :label="sbj" :value="sbj" v-for="(sbj,index) in subjects" :key="index"></el-option>
+            </el-select>
         </el-form-item>
+        
         <el-form-item label="开始时间" required>
             <el-row>
                 <el-col :span="11">
@@ -39,7 +42,12 @@
                 <el-option :label="clsName" :value="clsName" v-for="(clsName,index) in classes" :key="index"></el-option>
             </el-select>
             <el-button @click.prevent="removeClass(cls)" v-if="index > 0">删除</el-button>
-            <el-button @click="importFromExcel">导入数据</el-button>
+
+            <!-- <el-button @click="importFromExcel">导入数据</el-button> -->
+            <el-upload class="upload" :action="config.QS_API_URL+'/saveStudents'" :on-preview="handlePreview" :on-remove="handleRemove" multiple :limit="3" :on-exceed="handleExceed" @click="addClass" v-if="index === quiz.classes.length-1">
+            <el-button type='primary'>导入学生数据</el-button>
+            <div slot="tip" class="el-upload__tip">只能上传xslx文件，且不超过500kb</div>
+        </el-upload>
             <el-button @click="addClass" v-if="index === quiz.classes.length-1">添加班级</el-button>
         </el-form-item>
         <el-form-item label="试题数目" prop="problem_count" required>
@@ -64,9 +72,13 @@
     </el-form>
 </template>
 <script>
+import _ from 'lodash'
+import * as config from '../../config'
+import { Message } from 'element-ui'
 export default {
     data() {
         return {
+            config,
             quiz: {
                 name: '',
                 subject: '',
@@ -74,12 +86,11 @@ export default {
                 start_time: '',
                 lasted_time: '',
                 description: '',
-                problem_count: 1,   //default value
+                problem_count: 1, //default value
                 score_value: [{ tags: [], value: '' }],
                 classes: [{ value: '' }]
             },
-            classes: ['201401', '201402'],
-            types: ['软件过程', 'PSP', '体系结构'],
+
             rules: {
                 name: [
                     {
@@ -153,13 +164,42 @@ export default {
             }
         }
     },
+    computed: {
+        classes() {
+            return this.$store.state.create.classes
+        },
+        types() {
+            return this.$store.state.create.tags
+        },
+        subjects() {
+            return this.$store.state.create.subjects
+        },
+        createMsg() {
+            if (this.$store.state.create.createMsg)
+                Message(this.$store.state.create.createMsg)
+        }
+    },
+    created() {
+        this.$store.dispatch('getClasses')
+        this.$store.dispatch('getTags')
+        this.$store.dispatch('getSubjects')
+    },
     methods: {
         submitForm(formName) {
+            // Message(this.$store.state.create.createMsg)
             this.$refs[formName].validate(valid => {
                 if (valid) {
-                    console.dir(this.quiz)
-                    console.log(JSON.stringify(this.quiz))
-                    alert('submit!')
+                    var form = _.clone(this.quiz)
+                    form.classes = form.classes.map(cls => cls.value)
+                    form.last_time = form.lasted_time
+                    delete form.lasted_time
+
+                    form.start_time.setDate(form.start_date.getDate())
+                    form.start_time.setMonth(form.start_date.getMonth())
+                    form.start_time.setFullYear(form.start_date.getFullYear())
+                    delete form.start_date
+
+                    this.$store.dispatch('postQuiz', form)
                 } else {
                     console.log('error submit!!')
                     return false
@@ -171,10 +211,10 @@ export default {
         },
         onProblemCountChanged(val) {
             console.log(val)
-            var score_value = [];
+            var score_value = []
             for (var i = 0; i < val; i++)
-                score_value.push({ tags: [], value: '' });
-            this.quiz.score_value = score_value;
+                score_value.push({ tags: [], value: '' })
+            this.quiz.score_value = score_value
         },
         removeClass(item) {
             var index = this.quiz.classes.indexOf(item)
@@ -187,8 +227,17 @@ export default {
                 value: ''
             })
         },
-        importFromExcel() {
-
+        handleRemove(file, fileList) {
+            console.log(file, fileList)
+        },
+        handlePreview(file) {
+            console.log(file)
+        },
+        handleExceed(files, fileList) {
+            this.$message.warning(
+                `当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length +
+                    fileList.length} 个文件`
+            )
         }
     }
 }
@@ -196,5 +245,11 @@ export default {
 <style lang="less">
 .line {
     text-align: center;
+}
+.upload {
+    display: inline;
+    & > div {
+        display: inline;
+    }
 }
 </style>
