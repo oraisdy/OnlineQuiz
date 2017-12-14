@@ -9,3 +9,6 @@ export const TAGS_RECEIVED = 'tags_received'
 
 export const QUIZ_POSTED = 'quiz_posted'
 export const QUIZ_POST_FAILURE = 'quiz_post_failure'
+
+export const EXAMS_RECEIVED = 'exam_received'
+export const EXAMS_FETCH_FAILURE = 'exam_fetch_failure'

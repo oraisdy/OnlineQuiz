@@ -4,7 +4,7 @@
     <!-- <div class=""> -->
         <div v-if="isPaper" class="banner-btn banner-right"><router-link :to="paths.ANSWERSHEET">交卷</router-link></div>
         <div v-if="isAnswerSheet" class="banner-btn banner-right"><router-link :to="paths.PAPER">返回考试</router-link></div>
-        <CountDown :end_time="quiz.end_at" class="count-down banner-right"></CountDown>
+        <CountDown :end_time="endTime" v-if="endTime" class="count-down banner-right"></CountDown>
         
     <!-- </div> -->
 </div>
@@ -14,14 +14,22 @@
 import CountDown from './CountDown.vue'
 import { paths } from '../../router'
 export default {
-    props: ['quiz'],
+    // props: ['quiz'],
     data() {
         return {
             paths,
             isPaperFlag: true
         }
     },
+
     computed: {
+        endTime() {
+            var quiz = this.$store.state.paper.exam
+            if (quiz && quiz.endat) {
+                console.log('endat', quiz.endat)
+                return new Date(quiz.endat)
+            }
+        },
         isPaper() {
             return this.$route.matched[1].path === '/paper'
         },

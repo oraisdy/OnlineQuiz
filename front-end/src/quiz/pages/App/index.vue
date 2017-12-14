@@ -1,9 +1,9 @@
 <template>
 	<div id="app">
-		<Navbar :quiz="quiz"/>
+		<Navbar/>
 		<div class="container">	
-            <h1>{{quiz.title}}</h1>
-            <router-view  :quiz="quiz"></router-view>		
+            <!-- <h1>{{quiz.title}}</h1> -->
+            <router-view></router-view>		
 		</div>
 	</div>
 </template>
@@ -17,13 +17,13 @@ export default {
     components: {
         Paper,
         Navbar
-    },
-    computed: mapGetters({
-        quiz: 'quiz'
-    }),
-    created() {
-        this.$store.dispatch('getQuiz')
     }
+    // computed: mapGetters({
+    //     quiz: 'quiz'
+    // }),
+    // created() {
+    //     this.$store.dispatch('getQuiz')
+    // }
 }
 </script>
 

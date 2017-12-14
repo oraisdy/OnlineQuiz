@@ -8,14 +8,16 @@ const state = {
     problems: [],
     examid: null,
     userid: null,
-    title: null,
+    exam: null,
+    user: null,
     authcode: localStorage.getItem(`${STORAGE_KEY}.authcode`) || null
 }
 
 // getters
 const getters = {
     problems: state => state.problems,
-    title: state => state.title
+    exam: state => state.exam,
+    user: state => state.user
 }
 
 // actions
@@ -35,8 +37,10 @@ const actions = {
 const mutations = {
     [types.PAPER_RECEIVED](state, { paper }) {
         state.problems = paper.question
-        state.examid = paper.examid
-        state.userid = paper.userid
+        state.exam = paper.exam
+        state.user = paper.user
+        state.examid = paper.exam.id
+        state.userid = paper.user.id
     }
 }
 
