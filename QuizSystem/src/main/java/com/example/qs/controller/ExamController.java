@@ -1,9 +1,6 @@
 package com.example.qs.controller;
 
-import com.example.qs.entity.Quiz;
-import com.example.qs.entity.ResponseInfo;
-import com.example.qs.entity.Tag;
-import com.example.qs.entity.User;
+import com.example.qs.entity.*;
 import com.example.qs.service.ExamService;
 import com.example.qs.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +59,12 @@ public class ExamController {
     public Map<String, Object> getAnswers(@RequestParam int examid,
                                           @RequestParam int userid) {
         return examService.getAnswers(examid, userid);
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "/getAllExams")
+    public List<Exam> getExams(){
+        return examService.getAllExams();
     }
 
     @CrossOrigin

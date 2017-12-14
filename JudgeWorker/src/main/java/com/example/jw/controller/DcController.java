@@ -30,6 +30,7 @@ public class DcController {
     @Value("${application.qc.name}")
     private String qcName;
 
+    @CrossOrigin
     @RequestMapping(value = "/getScore", method = RequestMethod.GET)
     public List getScore(HttpServletRequest request) {
         int quizid = Integer.parseInt(request.getParameter("quizid"));
@@ -41,6 +42,7 @@ public class DcController {
         return scoreService.getScore(userid, quizid);
     }
 
+    @CrossOrigin
     @RequestMapping(value = "/calScore", method = RequestMethod.GET)
     public List calScore(HttpServletRequest request) {
         int quizid = Integer.parseInt(request.getParameter("quizid"));
@@ -52,6 +54,7 @@ public class DcController {
         return scoreService.calScore(userid, quizid);
     }
 
+    @CrossOrigin
     @RequestMapping(value = "/updateScore", method = RequestMethod.GET)
     public int updateScore(HttpServletRequest request) {
         int score = Integer.parseInt(request.getParameter("score"));
@@ -63,6 +66,7 @@ public class DcController {
         return scoreService.updateScore(score, userid, quizid);
     }
 
+    @CrossOrigin
     @GetMapping("/consumer")
     public String testAdd() {
         ServiceInstance serviceInstance = loadBalancerClient.choose(qcName);

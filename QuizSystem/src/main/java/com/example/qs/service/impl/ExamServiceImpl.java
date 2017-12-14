@@ -136,8 +136,8 @@ public class ExamServiceImpl implements ExamService {
         int examid = Integer.parseInt(temp[0]);
         int userid = Integer.parseInt(temp[1]);
 
-        result.put("examid", examDao.findById(examid));
-        result.put("userid",userService.findById(userid));
+        result.put("exam", examDao.findById(examid));
+        result.put("user",userService.findById(userid));
         ArrayList<Integer> questionIds = new ArrayList<>();
         List<ScoreValue> scoreValues = scorevalueDao.findByExamid(examid);
         ArrayList<Integer> nums = new ArrayList<>();
@@ -206,4 +206,8 @@ public class ExamServiceImpl implements ExamService {
         return res;
     }
 
+    @Override
+    public List<Exam> getAllExams() {
+        return examDao.findAll();
+    }
 }

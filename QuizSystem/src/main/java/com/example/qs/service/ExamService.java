@@ -23,4 +23,6 @@ public interface ExamService {
     ResponseInfo saveAnswer(Map<String, Object> choices);
 
     Map<String, Object> getAnswers(int examid, int userid);
+
+    List<Exam> getAllExams();
 }
