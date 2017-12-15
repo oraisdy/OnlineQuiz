@@ -173,10 +173,6 @@ export default {
         },
         subjects() {
             return this.$store.state.create.subjects
-        },
-        createMsg() {
-            if (this.$store.state.create.createMsg)
-                Message(this.$store.state.create.createMsg)
         }
     },
     created() {

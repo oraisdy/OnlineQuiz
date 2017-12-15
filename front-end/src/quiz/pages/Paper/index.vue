@@ -46,7 +46,7 @@ export default {
     },
     created() {
         this.$store.dispatch('getPaper', {
-            authcode: 'hmEHHxrs9jZyIoS7IHs3gg=='
+            authcode: this.$route.query.authcode
         })
         if (this.isResultPage)
             this.$store.dispatch('getScore', {

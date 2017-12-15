@@ -15,6 +15,7 @@ const actions = {
                 commit(types.QUIZ_POSTED, {
                     quiz: json.data.responseBody
                 })
+                Message('创建成功')
             } else commit(types.QUIZ_POST_FAILURE)
         })
     },
@@ -51,6 +52,7 @@ const mutations = {
     [types.QUIZ_POSTED](state, { quiz }) {
         state.quiz = quiz
         state.createMsg = '创建成功'
+        Message('创建成功')
     },
     [types.CLASSES_RECEIVED](state, { classes }) {
         state.classes = classes
