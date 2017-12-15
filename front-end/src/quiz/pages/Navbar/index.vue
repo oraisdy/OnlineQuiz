@@ -24,17 +24,24 @@ export default {
 
     computed: {
         endTime() {
-            var quiz = this.$store.state.paper.exam
-            if (quiz && quiz.endat) {
-                console.log('endat', quiz.endat)
-                return new Date(quiz.endat)
+            if (!this.$store.state.paper.isResultPage) {
+                var quiz = this.$store.state.paper.exam
+                if (quiz && quiz.endat) {
+                    return new Date(quiz.endat)
+                }
             }
         },
         isPaper() {
-            return this.$route.matched[1].path === '/paper'
+            return (
+                !this.$store.state.paper.isResultPage &&
+                this.$route.matched[1].path === '/paper'
+            )
         },
         isAnswerSheet() {
-            return this.$route.matched[1].path === '/answersheet'
+            return (
+                !this.$store.state.paper.isResultPage &&
+                this.$route.matched[1].path === '/answersheet'
+            )
         }
     },
     components: { CountDown }

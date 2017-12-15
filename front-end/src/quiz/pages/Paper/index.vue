@@ -3,13 +3,13 @@
         <h1>{{exam && exam.name}}</h1>
         <p>当前考生：{{user && user.name}}({{user&&user.email}})<br>
         考试科目：{{exam && exam.subject}}  试题数目：{{exam && exam.questionCount}}</p>
+        <div v-if="isResultPage" class='score-wrapper'>
+            <div class="score-value">{{score}}</div>
+        </div>
         <div v-if="problems.length">
             <ProblemItem class="problem-section" :id="'pb'+(index+1)" v-for="(problem, index) in problems" :key="problem.id" :problem="problem"
-                :index="index" />
+                :index="index" :isResultPage="isResultPage"/>
         </div>
-        <!-- <button class='submit-btn' @click.prevent="submitAnswers">
-            <router-link :to="paths.ANSWERSHEET">交卷</router-link>
-        </button> -->
     </div>
 </template>
 
@@ -31,7 +31,9 @@ export default {
     computed: mapGetters({
         exam: 'exam',
         user: 'user',
-        problems: 'problems'
+        problems: 'problems',
+        isResultPage: 'isResultPage',
+        score: 'score'
     }),
     watch: {
         problems: {
@@ -46,6 +48,11 @@ export default {
         this.$store.dispatch('getPaper', {
             authcode: 'hmEHHxrs9jZyIoS7IHs3gg=='
         })
+        if (this.isResultPage)
+            this.$store.dispatch('getScore', {
+                examid: this.$store.state.paper.examid,
+                userid: this.$store.state.paper.userid
+            })
     }
 }
 
@@ -64,8 +71,25 @@ function mapProblemsToAnswers(pbs) {
 </script>
 
 <style lang="less">
+@import '../../variables.less';
+
 p {
     text-align: center;
     line-height: 2em;
+}
+.score-wrapper {
+    background-image: url('/score-bg-for-answer.png');
+    background-size: 100%;
+    width: 108px;
+    height: 125px;
+    right: -3px;
+    top: -15px;
+    position: absolute;
+    text-align: center;
+    .score-value {
+        line-height: 150px;
+        font-size: 40px;
+        color: @red;
+    }
 }
 </style>

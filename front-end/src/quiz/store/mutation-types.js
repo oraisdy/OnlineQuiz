@@ -9,3 +9,5 @@ export const ANSWERSHEET_POSTED = 'answersheet_posted'
 export const ANSWERSHEET_POST_FAILURE = 'answersheet_post_failure'
 export const ANSWERSHEET_SAVED = 'answersheet_saved'
 export const MARKED_ITEMS_SAVED = 'marked_items_saved'
+
+export const SCORE_RECEIVED = 'score_received'

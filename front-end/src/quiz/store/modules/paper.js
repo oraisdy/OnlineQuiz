@@ -10,6 +10,7 @@ const state = {
     userid: null,
     exam: null,
     user: null,
+    isResultPage: null,
     authcode: localStorage.getItem(`${STORAGE_KEY}.authcode`) || null
 }
 
@@ -17,7 +18,8 @@ const state = {
 const getters = {
     problems: state => state.problems,
     exam: state => state.exam,
-    user: state => state.user
+    user: state => state.user,
+    isResultPage: state => state.isResultPage
 }
 
 // actions
@@ -41,6 +43,7 @@ const mutations = {
         state.user = paper.user
         state.examid = paper.exam.id
         state.userid = paper.user.id
+        state.isResultPage = paper.flag
     }
 }
 
