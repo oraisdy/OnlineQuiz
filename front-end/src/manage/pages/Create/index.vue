@@ -8,7 +8,6 @@
                 <el-option :label="sbj" :value="sbj" v-for="(sbj,index) in subjects" :key="index"></el-option>
             </el-select>
         </el-form-item>
-        
         <el-form-item label="开始时间" required>
             <el-row>
                 <el-col :span="11">
@@ -36,26 +35,25 @@
             <el-input type="textarea" v-model="quiz.description"></el-input>
         </el-form-item>
         <el-form-item v-for="(cls, index) in quiz.classes" :label="index===0?'考生选择':''" :key="index" :prop="'classes.' + index + '.value'" :rules="[
-                                                                                        {required:true, message:'请添加参加考试的学生',trigger:'blur'}
-                                                                                    ]">
+                                                                                            {required:true, message:'请添加参加考试的学生',trigger:'blur'}
+                                                                                        ]">
             <el-select v-model="cls.value" placeholder="请选择参加考试的班级">
                 <el-option :label="clsName" :value="clsName" v-for="(clsName,index) in classes" :key="index"></el-option>
             </el-select>
             <el-button @click.prevent="removeClass(cls)" v-if="index > 0">删除</el-button>
-
             <!-- <el-button @click="importFromExcel">导入数据</el-button> -->
             <el-upload class="upload" :action="config.QS_API_URL+'/saveStudents'" :on-preview="handlePreview" :on-remove="handleRemove" multiple :limit="3" :on-exceed="handleExceed" @click="addClass" v-if="index === quiz.classes.length-1">
-            <el-button type='primary'>导入学生数据</el-button>
-            <div slot="tip" class="el-upload__tip">只能上传xslx文件，且不超过500kb</div>
-        </el-upload>
+                <el-button type='primary'>导入学生数据</el-button>
+                <div slot="tip" class="el-upload__tip">只能上传xslx文件，且不超过500kb</div>
+            </el-upload>
             <el-button @click="addClass" v-if="index === quiz.classes.length-1">添加班级</el-button>
         </el-form-item>
         <el-form-item label="试题数目" prop="problem_count" required>
             <el-input @input="onProblemCountChanged" v-model.number="quiz.problem_count" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item v-for="(pb, index) in quiz.score_value" :label="index===0?'分值设置':''" :key="index" :prop="'score_value.' + index + '.value'" :rules="[
-                                                                                        {required:true, message:'请设置每一道题目的出题范围和分值',trigger:'blur'}
-                                                                                    ]">
+                                                                                            {required:true, message:'请设置每一道题目的出题范围和分值',trigger:'blur'}
+                                                                                        ]">
             <el-col :span="12">
                 <el-select v-model="pb.tags" multiple placeholder="试题类型">
                     <el-option :label="pbType" :value="pbType" v-for="(pbType,index) in types" :key="index"></el-option>
@@ -74,7 +72,6 @@
 <script>
 import _ from 'lodash'
 import * as config from '../../config'
-import { Message } from 'element-ui'
 export default {
     data() {
         return {
@@ -232,7 +229,7 @@ export default {
         handleExceed(files, fileList) {
             this.$message.warning(
                 `当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length +
-                    fileList.length} 个文件`
+                fileList.length} 个文件`
             )
         }
     }
@@ -242,9 +239,10 @@ export default {
 .line {
     text-align: center;
 }
+
 .upload {
     display: inline;
-    & > div {
+    &>div {
         display: inline;
     }
 }
