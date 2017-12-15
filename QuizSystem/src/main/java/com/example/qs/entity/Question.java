@@ -1,5 +1,7 @@
 package com.example.qs.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 public class Question {
@@ -9,6 +11,7 @@ public class Question {
     private int answerNumber;
     private String subject;
     private String tag;
+    private List<Integer> studentAns;
 
     public Question(int id, String title, Vector<Answer> allAnswers, int answerNumber, String subject, String tag) {
         this.id = id;
@@ -17,6 +20,7 @@ public class Question {
         this.answerNumber = answerNumber;
         this.subject = subject;
         this.tag = tag;
+        this.studentAns = new ArrayList<>();
     }
 
     public Question(int id, String title, int answerNumber, String subject, String tag) {
@@ -73,5 +77,13 @@ public class Question {
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    public List<Integer> getStudentAns() {
+        return studentAns;
+    }
+
+    public void setStudentAns(List<Integer> studentAns) {
+        this.studentAns = studentAns;
     }
 }

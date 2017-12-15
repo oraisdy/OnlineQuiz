@@ -14,6 +14,7 @@ public class Quiz {
     private int problem_count;
     private List<Tag> score_value;
     private List<String> classes;
+    private List<Integer> studentAns;
 
     public String getName() {
         return name;
@@ -77,5 +78,13 @@ public class Quiz {
 
     public void setClasses(List<String> classes) {
         this.classes = classes;
+    }
+
+    public List<Integer> getStudentAns() {
+        return studentAns;
+    }
+
+    public void setStudentAns(List<Integer> studentAns) {
+        this.studentAns = studentAns;
     }
 }

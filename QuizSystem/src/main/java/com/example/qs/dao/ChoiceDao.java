@@ -17,4 +17,10 @@ import java.util.List;
 public interface ChoiceDao extends JpaRepository<Choice, ChoicePK>{
 
     List<Choice> findByExamidAndUserid(int examid, int userid);
+
+    @Query("select answerid from Choice where examid=?1 and userid=?2 and questionid=?3 and answerid!=-1")
+    List<Integer> getStudentAns(int examid, int userid, int questionid);
+
+    @Query("select distinct questionid from Choice where examid=?1 and userid=?2 order by problemnum asc")
+    List<Integer> getQuestionsByExamidAndUserid(int examid, int userid);
 }

@@ -130,41 +130,76 @@ public class ExamServiceImpl implements ExamService {
     public Map<String, Object> generatePaper(String authcode) {
         Map<String, Object> result = new HashMap<>();
 
-        String origin = Encrypt.decode(authcode);
-//        String origin = "1 141250047";
+        String origin = null;
+        try {
+            origin = Encrypt.decode(authcode);
+        } catch (Exception e) {
+            result.put("message", e.getMessage());
+            return result;
+        }
         String[] temp = origin.split(" ");
         int examid = Integer.parseInt(temp[0]);
         int userid = Integer.parseInt(temp[1]);
 
         result.put("exam", examDao.findById(examid));
         result.put("user",userService.findById(userid));
-        ArrayList<Integer> questionIds = new ArrayList<>();
-        List<ScoreValue> scoreValues = scorevalueDao.findByExamid(examid);
-        ArrayList<Integer> nums = new ArrayList<>();
-        for (int i = 0; i < scoreValues.size(); i++) {
-            if (!nums.contains(scoreValues.get(i).getProblemnum())){
-                nums.add(scoreValues.get(i).getProblemnum());
-            }
-        }
 
-        for (int i = 0; i < nums.size(); i++) {
-            List<ScoreValue> values = scorevalueDao.findByExamidAndProblemnum(examid,nums.get(i));
-            Random random = new Random();
-            int index = random.nextInt(values.size());
-            int count = 0;
-            while (questionIds.contains(values.get(index).getQuestionid())){
-                count ++;
-                index = random.nextInt(values.size());
-                if (count > 100){
-                    break;
+        List<Integer> isExist = choiceDao.getQuestionsByExamidAndUserid(examid, userid);
+        if(isExist.size() == 0) {
+            //generate a new paper
+            ArrayList<Integer> questionIds = new ArrayList<>();
+            List<ScoreValue> scoreValues = scorevalueDao.findByExamid(examid);
+            ArrayList<Integer> nums = new ArrayList<>();
+            for (int i = 0; i < scoreValues.size(); i++) {
+                if (!nums.contains(scoreValues.get(i).getProblemnum())){
+                    nums.add(scoreValues.get(i).getProblemnum());
                 }
             }
-            questionIds.add(values.get(index).getQuestionid());
+
+            for (int i = 0; i < nums.size(); i++) {
+                List<ScoreValue> values = scorevalueDao.findByExamidAndProblemnum(examid,nums.get(i));
+                Random random = new Random();
+                int index = random.nextInt(values.size());
+                int count = 0;
+                while (questionIds.contains(values.get(index).getQuestionid())){
+                    count ++;
+                    index = random.nextInt(values.size());
+                    if (count > 100){
+                        break;
+                    }
+                }
+                questionIds.add(values.get(index).getQuestionid());
+            }
+            ServiceInstance serviceInstance = loadBalancerClient.choose(qcName);
+            String url = "http://" + serviceInstance.getHost() + ":" + serviceInstance.getPort()+"/getQuestionsByIDs";
+            Vector<LinkedHashMap> questions = restTemplate.postForObject(url,questionIds,Vector.class);
+            result.put("question",questions);
+
+            for(int i=0; i<questions.size(); i++) {
+                Choice pk = new Choice();
+                pk.setExamid(examid);
+                pk.setUserid(userid);
+                pk.setQuestionid(Integer.parseInt(questions.get(i).get("id").toString()));
+                pk.setAnswerid(-1);
+                pk.setProblemnum(i+1);
+                choiceDao.save(pk);
+            }
+            result.put("flag",0);
+        } else {
+            //return previous paper
+            ServiceInstance serviceInstance = loadBalancerClient.choose(qcName);
+            String url = "http://" + serviceInstance.getHost() + ":" + serviceInstance.getPort()+"/getQuestionsByIDs";
+            Vector<LinkedHashMap> questions = restTemplate.postForObject(url,isExist,Vector.class);
+            for (LinkedHashMap q : questions) {
+                List<Integer> ans = choiceDao.getStudentAns(examid, userid, Integer.parseInt(q.get("id").toString()));
+                if(ans.size() == 0)
+                    result.put("flag",0);
+                else
+                    result.put("flag", 1);
+                q.put("studentAns", ans);
+            }
+            result.put("question",questions);
         }
-        ServiceInstance serviceInstance = loadBalancerClient.choose(qcName);
-        String url = "http://" + serviceInstance.getHost() + ":" + serviceInstance.getPort()+"/getQuestionsByIDs";
-        Vector<Question> questions = restTemplate.postForObject(url,questionIds,Vector.class);
-        result.put("question",questions);
         return result;
     }
 

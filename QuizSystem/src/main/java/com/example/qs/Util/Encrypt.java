@@ -31,24 +31,30 @@ public class Encrypt {
         return "";
     }
 
-    public static String decode(String str) {
+    public static String decode(String str) throws Exception{
+        byte[] raw = sKey.getBytes("utf-8");
+        SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
+        Cipher cipher = Cipher.getInstance("AES");
+        cipher.init(Cipher.DECRYPT_MODE, skeySpec);
+        byte[] encrypted1 = new Base64().decode(str);//先用base64解密
+        byte[] original = cipher.doFinal(encrypted1);
+        String originalString = new String(original,"utf-8");
+        return originalString;
+    }
+
+    public static void main(String[] args) {
+        String origin = null;
         try {
-            byte[] raw = sKey.getBytes("utf-8");
-            SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
-            Cipher cipher = Cipher.getInstance("AES");
-            cipher.init(Cipher.DECRYPT_MODE, skeySpec);
-            byte[] encrypted1 = new Base64().decode(str);//先用base64解密
-            try {
-                byte[] original = cipher.doFinal(encrypted1);
-                String originalString = new String(original,"utf-8");
-                return originalString;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            origin = Encrypt.decode("+bRriCwgAbKgosHhRFQ8dg==");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "";
+        String[] temp = origin.split(" ");
+        int examid = Integer.parseInt(temp[0]);
+        int userid = Integer.parseInt(temp[1]);
+
+        System.out.println(examid);
+        System.out.println(userid);
     }
 
 }

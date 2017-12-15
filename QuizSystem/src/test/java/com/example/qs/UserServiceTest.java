@@ -1,5 +1,7 @@
 package com.example.qs;
 
+import com.example.qs.dao.ChoiceDao;
+import com.example.qs.entity.Choice;
 import com.example.qs.entity.User;
 import com.example.qs.service.UserService;
 import org.junit.Test;
@@ -21,6 +23,9 @@ public class UserServiceTest {
     @Autowired
     private UserService service;
 
+    @Autowired
+    private ChoiceDao choiceDao;
+
     @Test
     public void testAddStudents() {
 //        User u = new User();
@@ -32,5 +37,15 @@ public class UserServiceTest {
 //        service.saveStudents(users);
 //
 //        System.out.println(service.showStudentsByClass("201401").size());
+    }
+
+    @Test
+    public void testGetAnswers() {
+        List<Integer> ans = choiceDao.getStudentAns(14,141250051,11);
+//        System.out.println(ans.size());
+
+        List<Integer> exist = choiceDao.getQuestionsByExamidAndUserid(12,141250051);
+        for(Integer i : exist)
+            System.out.println(i);
     }
 }

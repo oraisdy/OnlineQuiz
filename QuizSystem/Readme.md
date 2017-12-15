@@ -108,9 +108,11 @@ authcode    String
             ],
             "answerNumber":3,
             "subject":"软件工程",
-            "tag":"123"
+            "tag":"123",
+            "studentAns": []
         }
     ],
+    "flag": 0,
     "examid":{
         "id":14,
         "name":"test222",
