@@ -5,7 +5,7 @@ import com.example.jw.model.Question;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
-import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,12 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Vector;
 
 /**
  * Created by uncle on 2017/12/16.
  */
+@Service
 public class QCService {
 
     private String url="jdbc:mysql://118.89.114.168:3306/online_quiz?autoReconnect=true&useSSL=false&characterEncoding=utf-8";
