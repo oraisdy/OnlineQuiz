@@ -1,0 +1,11 @@
+apps:
+  - script   : ./manage-server
+    name     : 'manage'
+    watch  : true
+    env    :
+      PORT : 3000
+  - script : ./quiz-server
+    name   : 'quiz'
+    watch  : true
+    env    :
+      PORT : 4000

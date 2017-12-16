@@ -1,0 +1,105 @@
+nohup: PORT=4000: No such file or directory
+nohup: PORT=3000: No such file or directory
+module.js:538
+    throw err;
+    ^
+
+Error: Cannot find module '/Users/dora/workspace/OnlineQuiz/front-end/serve/manage'
+    at Function.Module._resolveFilename (module.js:536:15)
+    at Function.Module._load (module.js:466:25)
+    at Function.Module.runMain (module.js:676:10)
+    at startup (bootstrap_node.js:187:16)
+    at bootstrap_node.js:608:3
+App listening on port 3000!
+::1 - - [16/Dec/2017:04:01:02 +0000] "GET / HTTP/1.1" 200 652 8.257 ms
+::1 - - [16/Dec/2017:04:01:03 +0000] "GET /app.js HTTP/1.1" 200 2567356 2.518 ms
+/Users/dora/workspace/OnlineQuiz/front-end/dist/manage.html
+App listening on port 3000!
+App listening on port 4000!
+::1 - - [16/Dec/2017:04:02:17 +0000] "GET / HTTP/1.1" 200 652 8.993 ms
+::1 - - [16/Dec/2017:04:02:17 +0000] "GET /app.js HTTP/1.1" 200 2567356 1.415 ms
+::1 - - [16/Dec/2017:04:02:17 +0000] "GET /app.js HTTP/1.1" 200 2567356 1.011 ms
+::1 - - [16/Dec/2017:04:02:20 +0000] "GET / HTTP/1.1" 200 652 8.247 ms
+::1 - - [16/Dec/2017:04:02:20 +0000] "GET /app.js HTTP/1.1" 200 2567356 1.739 ms
+/Users/dora/workspace/OnlineQuiz/front-end/dist/manage.html
+App listening on port 3000!
+App listening on port 4000!
+::1 - - [16/Dec/2017:04:04:39 +0000] "GET / HTTP/1.1" 200 652 8.280 ms
+::1 - - [16/Dec/2017:04:04:39 +0000] "GET /app.js HTTP/1.1" 200 2567356 1.554 ms
+::1 - - [16/Dec/2017:04:04:43 +0000] "GET / HTTP/1.1" 200 652 0.827 ms
+::1 - - [16/Dec/2017:04:04:43 +0000] "GET /app.js HTTP/1.1" 200 2567356 1.273 ms
+::1 - - [16/Dec/2017:04:04:46 +0000] "GET / HTTP/1.1" 200 652 12.272 ms
+::1 - - [16/Dec/2017:04:04:46 +0000] "GET /app.js HTTP/1.1" 200 2567356 1.171 ms
+::1 - - [16/Dec/2017:04:04:47 +0000] "GET /app.js HTTP/1.1" 200 2567356 3.727 ms
+::1 - - [16/Dec/2017:04:04:57 +0000] "GET / HTTP/1.1" 200 652 0.752 ms
+::1 - - [16/Dec/2017:04:04:57 +0000] "GET /app.js HTTP/1.1" 200 2567356 0.949 ms
+module.js:538
+    throw err;
+    ^
+
+Error: Cannot find module '../manage'
+    at Function.Module._resolveFilename (module.js:536:15)
+    at Function.Module._load (module.js:466:25)
+    at Module.require (module.js:579:17)
+    at require (internal/module.js:11:18)
+    at Object.<anonymous> (/Users/dora/workspace/OnlineQuiz/front-end/manage-server/index.js:2:13)
+    at Module._compile (module.js:635:30)
+    at Object.Module._extensions..js (module.js:646:10)
+    at Module.load (module.js:554:32)
+    at tryModuleLoad (module.js:497:12)
+    at Function.Module._load (module.js:489:3)
+module.js:538
+    throw err;
+    ^
+
+Error: Cannot find module '../app'
+    at Function.Module._resolveFilename (module.js:536:15)
+    at Function.Module._load (module.js:466:25)
+    at Module.require (module.js:579:17)
+    at require (internal/module.js:11:18)
+    at Object.<anonymous> (/Users/dora/workspace/OnlineQuiz/front-end/quiz-server/index.js:2:13)
+    at Module._compile (module.js:635:30)
+    at Object.Module._extensions..js (module.js:646:10)
+    at Module.load (module.js:554:32)
+    at tryModuleLoad (module.js:497:12)
+    at Function.Module._load (module.js:489:3)
+::1 - - [16/Dec/2017:04:07:37 +0000] "GET / HTTP/1.1" 200 652 5.215 ms
+::1 - - [16/Dec/2017:04:07:37 +0000] "GET /app.js HTTP/1.1" 200 2567356 1.329 ms
+::1 - - [16/Dec/2017:04:07:40 +0000] "GET / HTTP/1.1" 200 652 0.703 ms
+::1 - - [16/Dec/2017:04:07:40 +0000] "GET /app.js HTTP/1.1" 200 2567356 0.654 ms
+::1 - - [16/Dec/2017:04:07:40 +0000] "GET /app.js HTTP/1.1" 200 2567356 1.010 ms
+/Users/dora/workspace/OnlineQuiz/front-end/dist/manage.html
+App listening on port 4000!
+App listening on port 3000!
+::1 - - [16/Dec/2017:04:08:49 +0000] "GET / HTTP/1.1" 200 652 10.710 ms
+::1 - - [16/Dec/2017:04:08:49 +0000] "GET /app.js HTTP/1.1" 200 2567356 2.198 ms
+::1 - - [16/Dec/2017:04:08:51 +0000] "GET / HTTP/1.1" 200 652 13.458 ms
+::1 - - [16/Dec/2017:04:08:52 +0000] "GET /app.js HTTP/1.1" 200 2567356 1.257 ms
+::1 - - [16/Dec/2017:04:08:52 +0000] "GET /app.js HTTP/1.1" 200 2567356 0.929 ms
+/Users/dora/workspace/OnlineQuiz/front-end/dist/manage.html
+App listening on port 4000!
+manage listening on port 3000!
+::1 - - [16/Dec/2017:04:10:17 +0000] "GET / HTTP/1.1" 200 652 9.844 ms
+::1 - - [16/Dec/2017:04:10:17 +0000] "GET /app.js HTTP/1.1" 200 2567356 2.041 ms
+::1 - - [16/Dec/2017:04:10:19 +0000] "GET / HTTP/1.1" 200 652 7.507 ms
+::1 - - [16/Dec/2017:04:10:19 +0000] "GET /app.js HTTP/1.1" 200 2567356 2.157 ms
+::1 - - [16/Dec/2017:04:10:20 +0000] "GET /app.js HTTP/1.1" 200 2567356 0.982 ms
+manage listening on port 3000!
+App listening on port 4000!
+::1 - - [16/Dec/2017:04:14:26 +0000] "GET / HTTP/1.1" 200 - 9.867 ms
+::1 - - [16/Dec/2017:04:14:26 +0000] "GET /manage.js HTTP/1.1" 200 2569535 2.982 ms
+
+  Error: ENOENT: no such file or directory, open '/Users/dora/workspace/OnlineQuiz/front-end/dist/index.html'
+
+::1 - - [16/Dec/2017:04:14:29 +0000] "GET / HTTP/1.1" 404 9 15.697 ms
+manage listening on port 3000!
+App listening on port 4000!
+::1 - - [16/Dec/2017:04:15:08 +0000] "GET / HTTP/1.1" 200 - 7.984 ms
+::1 - - [16/Dec/2017:04:15:09 +0000] "GET /app.js HTTP/1.1" 200 2567356 3.853 ms
+::1 - - [16/Dec/2017:04:15:12 +0000] "GET / HTTP/1.1" 200 - 11.545 ms
+::1 - - [16/Dec/2017:04:15:12 +0000] "GET /manage.js HTTP/1.1" 200 2569535 3.367 ms
+::1 - - [16/Dec/2017:04:15:12 +0000] "GET /manage.js HTTP/1.1" 200 2569535 1.473 ms
+manage listening on port 3000!
+App listening on port 4000!
+::1 - - [16/Dec/2017:04:23:02 +0000] "GET / HTTP/1.1" 200 - 8.580 ms
+::1 - - [16/Dec/2017:04:23:02 +0000] "GET /manage.js HTTP/1.1" 200 2569535 7.387 ms

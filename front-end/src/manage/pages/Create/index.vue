@@ -42,7 +42,7 @@
             </el-select>
             <el-button @click.prevent="removeClass(cls)" v-if="index > 0">删除</el-button>
             <!-- <el-button @click="importFromExcel">导入数据</el-button> -->
-            <el-upload class="upload" :action="config.QS_API_URL+'/saveStudents'" :on-preview="handlePreview" :on-remove="handleRemove" multiple :limit="3" :on-exceed="handleExceed" @click="addClass" v-if="index === quiz.classes.length-1">
+            <el-upload class="upload" :action="config.QS_API_URL+'/saveStudents'" on-success="handleUploadSuccess" :on-exceed="handleExceed" @click="addClass" v-if="index === quiz.classes.length-1">
                 <el-button type='primary'>导入学生数据</el-button>
                 <div slot="tip" class="el-upload__tip">只能上传xslx文件，且不超过500kb</div>
             </el-upload>
@@ -70,170 +70,173 @@
     </el-form>
 </template>
 <script>
-import _ from 'lodash'
-import * as config from '../../config'
+import _ from "lodash";
+import * as config from "../../config";
 export default {
     data() {
         return {
             config,
             quiz: {
-                name: '',
-                subject: '',
-                start_date: '',
-                start_time: '',
-                lasted_time: '',
-                description: '',
+                name: "",
+                subject: "",
+                start_date: "",
+                start_time: "",
+                lasted_time: "",
+                description: "",
                 problem_count: 1, //default value
-                score_value: [{ tags: [], value: '' }],
-                classes: [{ value: '' }]
+                score_value: [{ tags: [], value: "" }],
+                classes: [{ value: "" }]
             },
 
             rules: {
                 name: [
                     {
                         required: true,
-                        message: '请输入考试名称',
-                        trigger: 'blur'
+                        message: "请输入考试名称",
+                        trigger: "blur"
                     },
                     {
                         min: 1,
                         max: 100,
-                        message: '长度在 1 到 100 个字符',
-                        trigger: 'blur'
+                        message: "长度在 1 到 100 个字符",
+                        trigger: "blur"
                     }
                 ],
                 subject: [
                     {
                         required: true,
-                        message: '请输入考试课程',
-                        trigger: 'change'
+                        message: "请输入考试课程",
+                        trigger: "change"
                     },
                     {
                         min: 1,
                         max: 100,
-                        message: '长度在 1 到 100 个字符',
-                        trigger: 'blur'
+                        message: "长度在 1 到 100 个字符",
+                        trigger: "blur"
                     }
                 ],
                 start_date: [
                     {
-                        type: 'date',
+                        type: "date",
                         required: true,
-                        message: '请选择日期',
-                        trigger: 'change'
+                        message: "请选择日期",
+                        trigger: "change"
                     }
                 ],
                 start_time: [
                     {
-                        type: 'date',
+                        type: "date",
                         required: true,
-                        message: '请选择时间',
-                        trigger: 'change'
+                        message: "请选择时间",
+                        trigger: "change"
                     }
                 ],
                 lasted_time: [
                     {
                         min: 1,
                         max: Number.MAX_SAFE_INTEGER,
-                        type: 'integer',
+                        type: "integer",
                         required: true,
                         message: `数值在 1 到 ${Number.MAX_SAFE_INTEGER} 之间`,
-                        trigger: 'blur'
+                        trigger: "blur"
                     }
                 ],
                 problem_count: [
                     {
                         min: 1,
                         max: 100,
-                        type: 'integer',
+                        type: "integer",
                         required: true,
                         message: `数值在 1 到 100 之间`,
-                        trigger: 'blur'
+                        trigger: "blur"
                     }
                 ],
                 description: [
                     {
                         required: false,
-                        message: '请填写描述信息',
-                        trigger: 'blur'
+                        message: "请填写描述信息",
+                        trigger: "blur"
                     }
                 ]
             }
-        }
+        };
     },
     computed: {
         classes() {
-            return this.$store.state.create.classes
+            return this.$store.state.create.classes;
         },
         types() {
-            return this.$store.state.create.tags
+            return this.$store.state.create.tags;
         },
         subjects() {
-            return this.$store.state.create.subjects
+            return this.$store.state.create.subjects;
         }
     },
     created() {
-        this.$store.dispatch('getClasses')
-        this.$store.dispatch('getTags')
-        this.$store.dispatch('getSubjects')
+        this.$store.dispatch("getClasses");
+        this.$store.dispatch("getTags");
+        this.$store.dispatch("getSubjects");
     },
     methods: {
         submitForm(formName) {
             // Message(this.$store.state.create.createMsg)
             this.$refs[formName].validate(valid => {
                 if (valid) {
-                    var form = _.clone(this.quiz)
-                    form.classes = form.classes.map(cls => cls.value)
-                    form.last_time = form.lasted_time
-                    delete form.lasted_time
+                    var form = _.clone(this.quiz);
+                    form.classes = form.classes.map(cls => cls.value);
+                    form.last_time = form.lasted_time;
+                    delete form.lasted_time;
 
-                    form.start_time.setDate(form.start_date.getDate())
-                    form.start_time.setMonth(form.start_date.getMonth())
-                    form.start_time.setFullYear(form.start_date.getFullYear())
-                    delete form.start_date
+                    form.start_time.setDate(form.start_date.getDate());
+                    form.start_time.setMonth(form.start_date.getMonth());
+                    form.start_time.setFullYear(form.start_date.getFullYear());
+                    delete form.start_date;
 
-                    this.$store.dispatch('postQuiz', form)
+                    this.$store.dispatch("postQuiz", form);
                 } else {
-                    console.log('error submit!!')
-                    return false
+                    console.log("error submit!!");
+                    return false;
                 }
-            })
+            });
         },
         resetForm(formName) {
-            this.$refs[formName].resetFields()
+            this.$refs[formName].resetFields();
         },
         onProblemCountChanged(val) {
-            console.log(val)
-            var score_value = []
+            console.log(val);
+            var score_value = [];
             for (var i = 0; i < val; i++)
-                score_value.push({ tags: [], value: '' })
-            this.quiz.score_value = score_value
+                score_value.push({ tags: [], value: "" });
+            this.quiz.score_value = score_value;
         },
         removeClass(item) {
-            var index = this.quiz.classes.indexOf(item)
+            var index = this.quiz.classes.indexOf(item);
             if (index !== -1) {
-                this.quiz.classes.splice(index, 1)
+                this.quiz.classes.splice(index, 1);
             }
         },
         addClass() {
             this.quiz.classes.push({
-                value: ''
-            })
+                value: ""
+            });
         },
         handleRemove(file, fileList) {
-            console.log(file, fileList)
+            console.log(file, fileList);
         },
         handlePreview(file) {
-            console.log(file)
+            console.log(file);
         },
         handleExceed(files, fileList) {
             this.$message.warning(
                 `当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length +
-                fileList.length} 个文件`
-            )
+                    fileList.length} 个文件`
+            );
+        },
+        handleUploadSuccess(resp, file, fileList) {
+            this.$store.dispatch("getClasses");
         }
     }
-}
+};
 </script>
 <style lang="less">
 .line {
@@ -242,7 +245,7 @@ export default {
 
 .upload {
     display: inline;
-    &>div {
+    & > div {
         display: inline;
     }
 }
