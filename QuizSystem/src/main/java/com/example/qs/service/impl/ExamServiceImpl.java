@@ -6,6 +6,7 @@ import com.example.qs.dao.ChoiceDao;
 import com.example.qs.dao.ExamDao;
 import com.example.qs.dao.ScorevalueDao;
 import com.example.qs.entity.*;
+import com.example.qs.service.EmailService;
 import com.example.qs.service.ExamService;
 import com.example.qs.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,13 +39,13 @@ public class ExamServiceImpl implements ExamService {
     private ChoiceDao choiceDao;
 
     @Autowired
+    private EmailService emailService;
+
+    @Autowired
     LoadBalancerClient loadBalancerClient;
 
     @Autowired
     RestTemplate restTemplate;
-
-    @Value("${application.es.name}")
-    private String esName;
 
     @Value("${application.qc.name}")
     private String qcName;
@@ -113,16 +114,10 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public void sendPasswords(Exam exam, List<User> candidates) {
-        ServiceInstance serviceInstance = loadBalancerClient.choose(esName);
-        String url = "http://" + serviceInstance.getHost() + ":" + serviceInstance.getPort()+"/sendEmail";
         for (User u : candidates) {
             String subject = exam.getName()+"考试密码";
             String content = Encrypt.encode(String.valueOf(exam.getId())+" "+String.valueOf(u.getId()));
-            Email email = new Email();
-            email.setSubject(subject);
-            email.setContent(content);
-            email.setReceiver(u.getEmail());
-            restTemplate.postForEntity(url, email, String.class);
+            emailService.sendMessage(subject, content, u.getEmail());
         }
     }
 

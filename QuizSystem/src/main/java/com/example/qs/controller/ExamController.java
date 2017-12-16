@@ -1,6 +1,7 @@
 package com.example.qs.controller;
 
 import com.example.qs.entity.*;
+import com.example.qs.service.EmailService;
 import com.example.qs.service.ExamService;
 import com.example.qs.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class ExamController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private EmailService emailService;
 
     @Value("${spring.application.name}")
     private String applicationName;
@@ -71,5 +75,11 @@ public class ExamController {
     @GetMapping(value = "/getAllClasses")
     public List<String> getClasses() {
         return userService.getClasses();
+    }
+
+    @CrossOrigin
+    @PostMapping(value = "/sendEmail")
+    public void sendMail(@RequestBody Email email) {
+        emailService.sendMessage(email.getSubject(),email.getContent(),email.getReceiver());
     }
 }
