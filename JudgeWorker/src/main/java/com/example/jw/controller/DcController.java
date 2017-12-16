@@ -37,8 +37,8 @@ public class DcController {
     @Autowired
     QCService qcService;
 
-    @Value("${application.qc.name}")
-    private String qcName;
+//    @Value("${application.qc.name}")
+//    private String qcName;
 
     @CrossOrigin
     @RequestMapping(value = "/getScore", method = RequestMethod.GET)
@@ -108,14 +108,14 @@ public class DcController {
 
 
 
-    @CrossOrigin
-    @GetMapping("/consumer")
-    public String testAdd() {
-        ServiceInstance serviceInstance = loadBalancerClient.choose(qcName);
-        String url = "http://" + serviceInstance.getHost() + ":" + serviceInstance.getPort() + "/add?a=2&b=3";
-        System.out.println(url);
-        return restTemplate.getForObject(url, String.class);
-    }
+//    @CrossOrigin
+//    @GetMapping("/consumer")
+//    public String testAdd() {
+//        ServiceInstance serviceInstance = loadBalancerClient.choose(qcName);
+//        String url = "http://" + serviceInstance.getHost() + ":" + serviceInstance.getPort() + "/add?a=2&b=3";
+//        System.out.println(url);
+//        return restTemplate.getForObject(url, String.class);
+//    }
 
 
 }
