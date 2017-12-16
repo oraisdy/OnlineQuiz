@@ -16,9 +16,7 @@ export default {
                 //     // authcode: e.target.value,
                 //     authcode: 'hmEHHxrs9jZyIoS7IHs3gg=='
                 // })
-                this.$router.push(
-                    `${paths.PAPER}?authcode=${'hmEHHxrs9jZyIoS7IHs3gg=='}`
-                )
+                this.$router.push(`${paths.PAPER}?authcode=${e.target.value}`)
             }
         }
     }
