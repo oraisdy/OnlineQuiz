@@ -1,7 +1,7 @@
 const path = require("path");
+const webpack = require("webpack");
 const projectRoot = path.resolve(__dirname, "../");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const webpack = require("webpack");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 function resolve(relPath) {
@@ -15,8 +15,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, "../dist"),
-        // publicPath: path.resolve(__dirname, '../public'),
-        filename: "[name].js"
+        filename: "[name].[chunkhash].js"
     },
     resolve: {
         extensions: [".js", ".vue"],
@@ -83,28 +82,49 @@ module.exports = {
         ]
     },
     plugins: [
-        // new HtmlWebpackPlugin({
-        //     filename: 'index.html',
-        //     template: 'index.html',
-        //     inject: true
-        // }),
         new ExtractTextPlugin("style.css"),
-        new HtmlWebpackPlugin({
-            inject: true,
-            chunks: ["app"],
-            template: "index.html",
-            filename: "index.html"
-        }),
-        new HtmlWebpackPlugin({
-            inject: true,
-            chunks: ["manage"],
-            template: "index.html",
-            filename: "manage.html"
-        }),
         new webpack.DefinePlugin({
             "process.env.NODE_ENV": JSON.stringify(
                 process.env.NODE_ENV || "development"
             )
+        }),
+        /* decouple your vendor code from your application code */
+        new webpack.optimize.CommonsChunkPlugin({
+            name: "vendor",
+            minChunks: function(module) {
+                // This prevents stylesheet resources with the .css or .scss extension
+                // from being moved from their original chunk to the vendor chunk
+                if (
+                    module.resource &&
+                    /^.*\.(css|less)$/.test(module.resource)
+                ) {
+                    return false;
+                }
+                return (
+                    module.context &&
+                    module.context.indexOf("node_modules") !== -1
+                );
+            }
+        }),
+        new webpack.HashedModuleIdsPlugin(),
+        new HtmlWebpackPlugin({
+            // files: {
+            //     css: ['style.css']
+            // },
+            inject: true,
+
+            chunks: ["app", "vendor"],
+            template: "index.html",
+            filename: "app.html"
+        }),
+        new HtmlWebpackPlugin({
+            // files: {
+            //     css: ['style.css']
+            // },
+            inject: true,
+            chunks: ["manage", "vendor"],
+            template: "index.html",
+            filename: "manage.html"
         })
     ]
 };
