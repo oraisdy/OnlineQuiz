@@ -93,7 +93,7 @@ module.exports = {
             inject: true,
             chunks: ["app"],
             template: "index.html",
-            filename: "app.html"
+            filename: "index.html"
         }),
         new HtmlWebpackPlugin({
             inject: true,
